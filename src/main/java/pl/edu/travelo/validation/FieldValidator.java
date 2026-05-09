@@ -14,6 +14,7 @@ import pl.edu.travelo.exception.RecursionException;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.Set;
 
 public final class FieldValidator {
