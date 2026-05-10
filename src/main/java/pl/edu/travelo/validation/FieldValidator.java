@@ -2,19 +2,22 @@ package pl.edu.travelo.validation;
 
 import pl.edu.travelo.exception.DateInFutureException;
 import pl.edu.travelo.exception.DateInPastException;
+import pl.edu.travelo.exception.DuplicateSeatException;
 import pl.edu.travelo.exception.EmptyStringException;
 import pl.edu.travelo.exception.InvalidDateTimeRangeException;
 import pl.edu.travelo.exception.InvalidEmailFormatException;
 import pl.edu.travelo.exception.InvalidPhoneNumberFormatException;
+import pl.edu.travelo.exception.InvalidRowException;
+import pl.edu.travelo.exception.InvalidSeatNumberException;
 import pl.edu.travelo.exception.NegativeValueException;
 import pl.edu.travelo.exception.NonPositiveValueException;
 import pl.edu.travelo.exception.NullAttributeException;
-import pl.edu.travelo.exception.RecursionException;
+import pl.edu.travelo.domain.model.Seat;
+import pl.edu.travelo.domain.model.Vehicle;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.Set;
 
 public final class FieldValidator {
@@ -124,13 +127,6 @@ public final class FieldValidator {
         return value;
     }
 
-    public static <T> T validateObjectRecursion(T passed, T passedTo) {
-        if (passedTo.equals(passed)) {
-            throw new RecursionException();
-        }
-        return passed;
-    }
-
     public static Set<DayOfWeek> validateDayOfWeekList(Set<DayOfWeek> dayOfWeek, String fieldName) {
         validateObjectNotNull(dayOfWeek, fieldName);
 
@@ -141,36 +137,32 @@ public final class FieldValidator {
         return dayOfWeek;
     }
 
-//    /**
-//     * validates seatRows > maxRow -> throw InvalidRowException
-//     * validates seatNumber > rowWidth -> throw InvalidSeatNumberException
-//     */
-//    public static void validateSeatDimension(Seat seat, Hall hall) {
-//        validateObjectNotNull(seat, "seat");
-//        validateObjectNotNull(hall, "hall");
-//
-//        int maxRow = hall.getMaxRow();
-//        int rowWidth = hall.getRowWidth();
-//
-//        if (seat.getRow() > maxRow) {
-//            throw new InvalidRowException("Seat row exceeds hall max rows.");
-//        }
-//
-//        if (seat.getSeatNumber() > rowWidth) {
-//            throw new InvalidSeatNumberException("Seat number exceeds hall row width.");
-//        }
-//    }
-//
-//    public static void validateSeatNotDuplicate(Seat newSeat, Hall hall) {
-//        for (Seat seat : hall.getSeats()) {
-//            if (seat.getSeatNumber() == newSeat.getSeatNumber() && seat.getRow() == newSeat.getRow()) {
-//                throw new DuplicateSeatException(
-//                        "Seat with number " + newSeat.getSeatNumber() +
-//                                " and row " + newSeat.getRow() + " already exists"
-//                );
-//            }
-//        }
-//    }
+    public static void validateSeatDimension(Seat seat, Vehicle vehicle) {
+        validateObjectNotNull(seat, "seat");
+        validateObjectNotNull(vehicle, "vehicle");
+
+        int maxRow = vehicle.getMaxRow();
+        int rowWidth = vehicle.getRowWidth();
+
+        if (seat.getRow() > maxRow) {
+            throw new InvalidRowException();
+        }
+
+        if (seat.getSeatNumber() > rowWidth) {
+            throw new InvalidSeatNumberException();
+        }
+    }
+
+    public static void validateSeatNotDuplicate(Seat newSeat, Vehicle vehicle){
+        for(Seat seat : vehicle.getSeats()){
+            if(seat.getSeatNumber() == newSeat.getSeatNumber() && seat.getRow() == newSeat.getRow()){
+                throw new DuplicateSeatException(
+                        "Seat with number " + newSeat.getSeatNumber() +
+                                " and row " + newSeat.getRow() + " already exists"
+                );
+            }
+        }
+    }
 
     public static String validateEmail(String email) {
         validateNullOrEmptyString(email, "Email");
