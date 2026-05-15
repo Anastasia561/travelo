@@ -1,17 +1,5 @@
 package pl.edu.travelo.validation;
 
-import pl.edu.travelo.exception.DateInFutureException;
-import pl.edu.travelo.exception.DateInPastException;
-import pl.edu.travelo.exception.DuplicateSeatException;
-import pl.edu.travelo.exception.EmptyStringException;
-import pl.edu.travelo.exception.InvalidDateTimeRangeException;
-import pl.edu.travelo.exception.InvalidEmailFormatException;
-import pl.edu.travelo.exception.InvalidPhoneNumberFormatException;
-import pl.edu.travelo.exception.InvalidRowException;
-import pl.edu.travelo.exception.InvalidSeatNumberException;
-import pl.edu.travelo.exception.NegativeValueException;
-import pl.edu.travelo.exception.NonPositiveValueException;
-import pl.edu.travelo.exception.NullAttributeException;
 import pl.edu.travelo.domain.model.Seat;
 import pl.edu.travelo.domain.model.Vehicle;
 
@@ -24,105 +12,100 @@ public final class FieldValidator {
 
     public static String validateNullOrEmptyString(String value, String fieldName) {
         if (value == null) {
-            throw new NullAttributeException(fieldName);
+            throw new IllegalArgumentException(fieldName + " can not be null");
         }
         if (value.trim().isEmpty()) {
-            throw new EmptyStringException(fieldName);
+            throw new IllegalArgumentException(fieldName + " can not be empty");
         }
         return value;
     }
 
 
     public static <T> T validateNonNegativeNumber(T value, String fieldName) {
-        if (value instanceof Integer intValue) {
-            if (intValue < 0) {
-                throw new NegativeValueException(fieldName);
+        switch (value) {
+            case Integer intValue -> {
+                if (intValue < 0) {
+                    throw new IllegalArgumentException(fieldName + " must be a non-negative value ( >= 0)");
+                }
+                return value;
             }
-            return value;
-        } else if (value instanceof Long longValue) {
-            if (longValue < 0) {
-                throw new NegativeValueException(fieldName);
+            case Long longValue -> {
+                if (longValue < 0) {
+                    throw new IllegalArgumentException(fieldName + " must be a non-negative value ( >= 0)");
+                }
+                return value;
             }
-            return value;
-        } else if (value instanceof Double doubleValue) {
-            if (doubleValue < 0) {
-                throw new NegativeValueException(fieldName);
+            case Double doubleValue -> {
+                if (doubleValue < 0) {
+                    throw new IllegalArgumentException(fieldName + " must be a non-negative value ( >= 0)");
+                }
+                return value;
             }
-            return value;
-        } else {
-            throw new IllegalArgumentException("Unsupported number type for validation");
+            case null, default -> throw new IllegalArgumentException("Unsupported number type for validation");
         }
     }
 
     public static <T> T validatePositiveNumber(T value, String fieldName) {
-        if (value instanceof Integer intValue) {
-            if (intValue <= 0) {
-                throw new NonPositiveValueException(fieldName);
+        switch (value) {
+            case Integer intValue -> {
+                if (intValue <= 0) {
+                    throw new IllegalArgumentException(fieldName + " must be a positive value ( > 0)");
+                }
+                return value;
             }
-            return value;
-        } else if (value instanceof Long longValue) {
-            if (longValue <= 0) {
-                throw new NonPositiveValueException(fieldName);
+            case Long longValue -> {
+                if (longValue <= 0) {
+                    throw new IllegalArgumentException(fieldName + " must be a positive value ( > 0)");
+                }
+                return value;
             }
-            return value;
-        } else if (value instanceof Double doubleValue) {
-            if (doubleValue <= 0) {
-                throw new NonPositiveValueException(fieldName);
+            case Double doubleValue -> {
+                if (doubleValue <= 0) {
+                    throw new IllegalArgumentException(fieldName + " must be a positive value ( > 0)");
+                }
+                return value;
             }
-            return value;
-        } else {
-            throw new IllegalArgumentException("Unsupported number type for validation");
+            case null, default -> throw new IllegalArgumentException("Unsupported number type for validation");
         }
     }
 
     public static LocalDate validateDateNotInTheFuture(LocalDate value, String fieldName) {
         if (value == null) {
-            throw new NullAttributeException(fieldName);
+            throw new IllegalArgumentException(fieldName + " can not be null");
         }
 
         if (value.isAfter(LocalDate.now())) {
-            throw new DateInFutureException(fieldName);
-        }
-        return value;
-    }
-
-    public static LocalDate validateDateNotInThePast(LocalDate value, String fieldName) {
-        if (value == null) {
-            throw new NullAttributeException(fieldName);
-        }
-
-        if (value.isBefore(LocalDate.now())) {
-            throw new DateInPastException(fieldName);
+            throw new IllegalArgumentException(fieldName + " can not be in the future");
         }
         return value;
     }
 
     public static LocalDateTime validateDateTimeNotInThePast(LocalDateTime value, String fieldName) {
         if (value == null) {
-            throw new NullAttributeException(fieldName);
+            throw new IllegalArgumentException(fieldName + " can not be null");
         }
 
         if (value.isBefore(LocalDateTime.now())) {
-            throw new DateInPastException(fieldName);
+            throw new IllegalArgumentException(fieldName + " can not be in the past");
         }
         return value;
     }
 
     public static void validateDateTimeRange(LocalDateTime startTime, LocalDateTime endTime) {
         if (startTime == null)
-            throw new NullAttributeException("Start Time");
+            throw new IllegalArgumentException("Start Time can not be null");
 
         if (endTime == null)
-            throw new NullAttributeException("End Time");
+            throw new IllegalArgumentException("End Time can not be null");
 
         if (startTime.isAfter(endTime)) {
-            throw new InvalidDateTimeRangeException();
+            throw new IllegalArgumentException("StartTime can not be bigger than EndTime");
         }
     }
 
     public static <T> T validateObjectNotNull(T value, String fieldName) {
         if (value == null) {
-            throw new NullAttributeException(fieldName);
+            throw new IllegalArgumentException(fieldName + " can not be null");
         }
         return value;
     }
@@ -145,18 +128,18 @@ public final class FieldValidator {
         int rowWidth = vehicle.getRowWidth();
 
         if (seat.getRow() > maxRow) {
-            throw new InvalidRowException();
+            throw new IllegalArgumentException("Seat row exceeds vehicle max rows");
         }
 
         if (seat.getSeatNumber() > rowWidth) {
-            throw new InvalidSeatNumberException();
+            throw new IllegalArgumentException("Seat number exceeds vehicle row width");
         }
     }
 
-    public static void validateSeatNotDuplicate(Seat newSeat, Vehicle vehicle){
-        for(Seat seat : vehicle.getSeats()){
-            if(seat.getSeatNumber() == newSeat.getSeatNumber() && seat.getRow() == newSeat.getRow()){
-                throw new DuplicateSeatException(
+    public static void validateSeatNotDuplicate(Seat newSeat, Vehicle vehicle) {
+        for (Seat seat : vehicle.getSeats()) {
+            if (seat.getSeatNumber() == newSeat.getSeatNumber() && seat.getRow() == newSeat.getRow()) {
+                throw new IllegalArgumentException(
                         "Seat with number " + newSeat.getSeatNumber() +
                                 " and row " + newSeat.getRow() + " already exists"
                 );
@@ -170,7 +153,7 @@ public final class FieldValidator {
         String emailRegex = "^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
 
         if (!email.matches(emailRegex)) {
-            throw new InvalidEmailFormatException();
+            throw new IllegalArgumentException("Email format is invalid");
         }
 
         return email;
@@ -182,12 +165,12 @@ public final class FieldValidator {
         }
 
         if (phoneNumber.isBlank()) {
-            throw new EmptyStringException("Phone Number");
+            throw new IllegalArgumentException("Phone number can not be empty");
         }
 
         String phoneRegex = "^\\+?[0-9\\s\\-()]{7,20}$";
         if (!phoneNumber.matches(phoneRegex)) {
-            throw new InvalidPhoneNumberFormatException();
+            throw new IllegalArgumentException("Phone Number format is invalid");
         }
 
         return phoneNumber;

@@ -1,7 +1,5 @@
 package pl.edu.travelo.domain.model;
 
-import pl.edu.travelo.exception.InvalidRowException;
-import pl.edu.travelo.exception.InvalidSeatNumberException;
 import pl.edu.travelo.validation.FieldValidator;
 
 import java.util.HashSet;
@@ -37,7 +35,7 @@ public class Seat {
 
     public void setSeatNumber(int seatNumber) {
         FieldValidator.validatePositiveNumber(seatNumber, "Seat number");
-        if (seatNumber > vehicle.getRowWidth()) throw new InvalidSeatNumberException();
+        if (seatNumber > vehicle.getRowWidth()) throw new IllegalArgumentException("Seat number exceed row width");
         this.seatNumber = seatNumber;
     }
 
@@ -47,7 +45,7 @@ public class Seat {
 
     public void setRow(int row) {
         FieldValidator.validatePositiveNumber(row, "Row");
-        if (row > vehicle.getMaxRow()) throw new InvalidRowException();
+        if (row > vehicle.getMaxRow()) throw new IllegalArgumentException("Row exceed max row number");
         this.row = row;
     }
 

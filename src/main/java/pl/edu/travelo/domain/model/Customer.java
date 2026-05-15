@@ -6,10 +6,11 @@ import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 
 public class Customer extends Person {
     private int loyaltyPoints = 0;
-    private final Map<ReservationKey, Reservation> reservations = new HashMap<>();
+    private final Map<UUID, Reservation> reservations = new HashMap<>();
 
     public Customer(String firstName, String lastName, String phoneNumber, String email, String password, LocalDate birthDate,
                     int loyaltyPoints) {
@@ -27,22 +28,20 @@ public class Customer extends Person {
 
     void addReservation(Reservation reservation) {
         FieldValidator.validateObjectNotNull(reservation, "Reservation");
-        ReservationKey key = new ReservationKey(reservation.getReservationNumber(), reservation.getReservationTime());
-        reservations.put(key, reservation);
+        reservations.put(reservation.getReservationNumber(), reservation);
     }
 
-    public Optional<Reservation> getReservation(ReservationKey key) {
+    public Optional<Reservation> getReservation(UUID key) {
         FieldValidator.validateObjectNotNull(key, "Key");
         return Optional.ofNullable(reservations.get(key));
     }
 
     void removeReservation(Reservation reservation) {
         FieldValidator.validateObjectNotNull(reservation, "Reservation");
-        ReservationKey key = new ReservationKey(reservation.getReservationNumber(), reservation.getReservationTime());
-        reservations.remove(key);
+        reservations.remove(reservation.getReservationNumber());
     }
 
-    public Map<ReservationKey, Reservation> getReservations() {
+    public Map<UUID, Reservation> getReservations() {
         return new HashMap<>(reservations);
     }
 }

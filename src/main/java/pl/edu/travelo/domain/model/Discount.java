@@ -2,7 +2,6 @@ package pl.edu.travelo.domain.model;
 
 import pl.edu.travelo.domain.enums.AgeGroup;
 import pl.edu.travelo.domain.enums.DiscountType;
-import pl.edu.travelo.exception.InvalidDiscountException;
 import pl.edu.travelo.validation.FieldValidator;
 
 import java.util.HashSet;
@@ -38,7 +37,7 @@ public abstract class Discount {
         if (amount > 0 && amount < 1) {
             this.amount = amount;
         } else {
-            throw new InvalidDiscountException();
+            throw new IllegalArgumentException("Discount amount must be between 0 and 1");
         }
     }
 
