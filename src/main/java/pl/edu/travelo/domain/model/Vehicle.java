@@ -1,5 +1,6 @@
 package pl.edu.travelo.domain.model;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -36,7 +37,7 @@ public class Vehicle {
     private int rowWidth;
 
 
-    @OneToMany(mappedBy = "vehicle")
+    @OneToMany(mappedBy = "vehicle", cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
     private final Set<Seat> seats = new HashSet<>();
 
     @OneToMany(mappedBy = "vehicle")
@@ -45,16 +46,18 @@ public class Vehicle {
     @OneToMany(mappedBy = "vehicle")
     private final Set<Shift> shifts = new HashSet<>();
 
-    public Vehicle(String vehicleNumber, VehicleType vehicleType, int maxRow, int rowWidth) {
+    public Vehicle(String vehicleNumber, VehicleType vehicleType, int maxRow, int rowWidth, int seatNumber, int row) {
         setVehicleNumber(vehicleNumber);
         setVehicleType(vehicleType);
         setMaxRow(maxRow);
         setRowWidth(rowWidth);
+
+        addSeat(seatNumber, row);
     }
 
-    public Vehicle(String vehicleNumber, VehicleType vehicleType, int maxRow, int rowWidth, Set<Trip> trips,
-                   Set<Shift> shifts) {
-        this(vehicleNumber, vehicleType, maxRow, rowWidth);
+    public Vehicle(String vehicleNumber, VehicleType vehicleType, int maxRow, int rowWidth, int seatNumber, int row,
+                   Set<Trip> trips, Set<Shift> shifts) {
+        this(vehicleNumber, vehicleType, maxRow, rowWidth, seatNumber, row);
 
         FieldValidator.validateObjectNotNull(trips, "Trips list");
         for (Trip trip : trips) {
@@ -67,7 +70,7 @@ public class Vehicle {
         }
     }
 
-    public Vehicle() {
+    protected Vehicle() {
     }
 
     public String getVehicleNumber() {
@@ -102,13 +105,12 @@ public class Vehicle {
         this.rowWidth = FieldValidator.validatePositiveNumber(rowWidth, "Row Width");
     }
 
-    void addSeat(Seat seat) {
-        if (seat.getVehicle() != null) throw new IllegalArgumentException("Can not reassign seat to vehicle");
+    public void addSeat(int seatNumber, int row) {
+        Seat newSeat = new Seat(seatNumber, row, this);
+        FieldValidator.validateSeatDimension(newSeat, this);
+        FieldValidator.validateSeatNotDuplicate(newSeat, this);
 
-        FieldValidator.validateSeatDimension(seat, this);
-        FieldValidator.validateSeatNotDuplicate(seat, this);
-
-        this.seats.add(seat);
+        this.seats.add(newSeat);
     }
 
     public Set<Seat> getSeats() {

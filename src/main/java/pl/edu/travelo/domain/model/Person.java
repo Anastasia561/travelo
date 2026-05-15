@@ -48,7 +48,7 @@ public abstract class Person {
         setBirthDate(birthDate);
     }
 
-    public Person() {
+    protected Person() {
     }
 
     public void setFirstName(String firstName) {

@@ -37,7 +37,7 @@ public class LimitedDiscount extends Discount {
         this.endTime = endTime;
     }
 
-    public LimitedDiscount() {
+    protected LimitedDiscount() {
     }
 
     public void setStartTime(LocalDateTime startTime) {

@@ -52,7 +52,7 @@ public class Destination {
         }
     }
 
-    public Destination() {
+    protected Destination() {
     }
 
     public String getName() {

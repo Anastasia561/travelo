@@ -45,7 +45,7 @@ public class Shift {
         assignStaff(staff);
     }
 
-    public Shift() {
+    protected Shift() {
     }
 
     public LocalDateTime getStartTime() {

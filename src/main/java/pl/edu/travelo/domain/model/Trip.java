@@ -85,7 +85,7 @@ public class Trip {
         }
     }
 
-    public Trip() {
+    protected Trip() {
     }
 
     public LocalDateTime getDepartureTime() {

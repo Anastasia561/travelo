@@ -64,7 +64,7 @@ public abstract class Discount {
         this.discountType = DiscountType.SPECIAL_CONDITION_DISCOUNT;
     }
 
-    public Discount() {
+    protected Discount() {
     }
 
     public void setDiscountAmount(double amount) {

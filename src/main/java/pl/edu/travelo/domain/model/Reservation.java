@@ -1,5 +1,6 @@
 package pl.edu.travelo.domain.model;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -40,7 +41,7 @@ public class Reservation {
     private ReservationStatus status;
 
 
-    @OneToMany(mappedBy = "reservation")
+    @OneToMany(mappedBy = "reservation", cascade = {CascadeType.REMOVE, CascadeType.PERSIST})
     private final Set<Payment> payments = new HashSet<>();
 
     @ManyToOne
@@ -63,26 +64,23 @@ public class Reservation {
     @JoinColumn(name = "customer_id", nullable = false)
     private Customer customer;
 
-    public Reservation(LocalDateTime reservationTime, ReservationStatus status, Trip trip, Customer customer) {
+    public Reservation(LocalDateTime reservationTime, ReservationStatus status, Trip trip, Customer customer, Seat seat) {
         this.reservationNumber = UUID.randomUUID();
         this.reservationTime = FieldValidator.validateObjectNotNull(reservationTime, "Reservation Time");
         this.status = FieldValidator.validateObjectNotNull(status, "Status");
 
         assignTrip(trip);
         assignCustomer(customer);
+        addSeat(seat);
     }
 
     public Reservation(LocalDateTime reservationTime, ReservationStatus status, Trip trip, Customer customer,
-                       Set<Seat> seats, Discount discount) {
-        this(reservationTime, status, trip, customer);
-
-        FieldValidator.validateObjectNotNull(seats, "Seats list");
-        for (Seat seat : seats) {
-            addSeat(seat);
-        }
+                       Seat seat, Discount discount) {
+        this(reservationTime, status, trip, customer, seat);
+        this.discount = FieldValidator.validateObjectNotNull(discount, "Discount");
     }
 
-    public Reservation() {
+    protected Reservation() {
     }
 
     public void setStatus(ReservationStatus status) {
@@ -190,7 +188,7 @@ public class Reservation {
     public double getTotalPrice() {
         double total = 0.0;
         for (Seat seat : seats) {
-                total += seat.getPrice();
+            total += seat.getPrice();
         }
         double discountAmount = discount == null ? 0.0 : total * discount.getDiscountAmount();
         total -= discountAmount;

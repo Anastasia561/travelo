@@ -51,7 +51,7 @@ public class Staff extends Person {
         }
     }
 
-    public Staff() {
+    protected Staff() {
     }
 
     public void setHireDate(LocalDate hireDate) {

@@ -37,25 +37,15 @@ public class Seat {
     @ManyToMany(mappedBy = "seats")
     private final Set<Reservation> reservations = new HashSet<>();
 
-    public Seat(int seatNumber, int row, Vehicle vehicle) {
+    Seat(int seatNumber, int row, Vehicle vehicle) {
         FieldValidator.validateObjectNotNull(vehicle, "vehicle");
         setSeatNumber(seatNumber);
         setRow(row);
-        vehicle.addSeat(this);
         this.vehicle = vehicle;
         this.isBooked = false;
     }
 
-    public Seat(int seatNumber, int row, Vehicle vehicle, Set<Reservation> reservations) {
-        this(seatNumber, row, vehicle);
-
-        FieldValidator.validateObjectNotNull(reservations, "reservations");
-        for (Reservation reservation : reservations) {
-            addReservation(reservation);
-        }
-    }
-
-    public Seat() {
+    protected Seat() {
     }
 
     public int getSeatNumber() {

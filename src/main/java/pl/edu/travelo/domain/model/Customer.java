@@ -31,7 +31,7 @@ public class Customer extends Person {
         setLoyaltyPoints(loyaltyPoints);
     }
 
-    public Customer() {
+    protected Customer() {
     }
 
     public void setLoyaltyPoints(int loyaltyPoints) {

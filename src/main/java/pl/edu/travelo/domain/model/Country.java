@@ -26,8 +26,11 @@ public class Country {
     @OneToMany(mappedBy = "country")
     private final Set<City> cities = new HashSet<>();
 
-    public Country(String name) {
+    public Country(String name, String cityName) {
         setName(name);
+        FieldValidator.validateNullOrEmptyString(cityName, "City name");
+        City city = new City(cityName, this);
+        this.cities.add(city);
     }
 
     public Country(String name, Set<City> cities) {
@@ -38,7 +41,7 @@ public class Country {
         }
     }
 
-    public Country() {
+    protected Country() {
     }
 
     public String getName() {

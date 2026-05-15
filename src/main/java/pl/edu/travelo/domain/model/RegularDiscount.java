@@ -40,7 +40,7 @@ public class RegularDiscount extends Discount {
         setDayOfWeek(dayOfWeek);
     }
 
-    public RegularDiscount() {
+    protected RegularDiscount() {
     }
 
     public void setDayOfWeek(Set<DayOfWeek> dayOfWeek) {

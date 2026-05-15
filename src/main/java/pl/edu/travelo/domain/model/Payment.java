@@ -48,7 +48,7 @@ public class Payment {
         this.reservation = reservation;
     }
 
-    public Payment() {
+    protected Payment() {
     }
 
     public PaymentMethod getPaymentMethod() {

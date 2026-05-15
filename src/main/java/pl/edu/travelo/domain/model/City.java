@@ -54,7 +54,7 @@ public class City {
         }
     }
 
-    public City() {
+    protected City() {
     }
 
     public String getName() {
