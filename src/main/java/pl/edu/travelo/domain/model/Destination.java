@@ -1,15 +1,38 @@
 package pl.edu.travelo.domain.model;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import pl.edu.travelo.validation.FieldValidator;
 
 import java.util.HashSet;
 import java.util.Set;
 
+@Entity
+@Table(name = "destination")
 public class Destination {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+
+    @Column(length = 50, nullable = false)
     private String name;
+
+    @Column(length = 100, nullable = false)
     private String description;
 
+
+    @ManyToOne
+    @JoinColumn(name = "city_id", nullable = false)
     private City city;
+
+    @OneToMany(mappedBy = "destination")
     private final Set<Trip> trips = new HashSet<>();
 
     public Destination(String name, String description, City city) {
@@ -27,6 +50,9 @@ public class Destination {
         for (Trip trip : trips) {
             addTrip(trip);
         }
+    }
+
+    public Destination() {
     }
 
     public String getName() {

@@ -1,15 +1,40 @@
 package pl.edu.travelo.domain.model;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import pl.edu.travelo.validation.FieldValidator;
 
 import java.util.HashSet;
 import java.util.Set;
 
+@Entity
+@Table(name = "seat")
 public class Seat {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+
+    @Column(nullable = false)
     private int seatNumber;
+
+    @Column(nullable = false)
     private int row;
 
+    @Column(nullable = false)
+    private boolean isBooked;
+
+    @ManyToOne
+    @JoinColumn(name = "vehicle_id", nullable = false)
     private Vehicle vehicle;
+
+    @ManyToMany(mappedBy = "seats")
     private final Set<Reservation> reservations = new HashSet<>();
 
     public Seat(int seatNumber, int row, Vehicle vehicle) {
@@ -18,6 +43,7 @@ public class Seat {
         setRow(row);
         vehicle.addSeat(this);
         this.vehicle = vehicle;
+        this.isBooked = false;
     }
 
     public Seat(int seatNumber, int row, Vehicle vehicle, Set<Reservation> reservations) {
@@ -29,6 +55,9 @@ public class Seat {
         }
     }
 
+    public Seat() {
+    }
+
     public int getSeatNumber() {
         return seatNumber;
     }
@@ -37,6 +66,14 @@ public class Seat {
         FieldValidator.validatePositiveNumber(seatNumber, "Seat number");
         if (seatNumber > vehicle.getRowWidth()) throw new IllegalArgumentException("Seat number exceed row width");
         this.seatNumber = seatNumber;
+    }
+
+    public boolean isBooked() {
+        return isBooked;
+    }
+
+    public void setBooked(boolean booked) {
+        isBooked = booked;
     }
 
     public int getRow() {
@@ -70,5 +107,13 @@ public class Seat {
 
     public Set<Reservation> getReservations() {
         return new HashSet<>(reservations);
+    }
+
+    public double getPrice() {
+        return switch (vehicle.getVehicleType()) {
+            case BUS -> 20.0;
+            case PLAIN -> 150.0;
+            case TRAIN -> 300.0;
+        };
     }
 }

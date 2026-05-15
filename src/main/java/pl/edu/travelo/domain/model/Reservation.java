@@ -1,5 +1,18 @@
 package pl.edu.travelo.domain.model;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import pl.edu.travelo.domain.enums.ReservationStatus;
 import pl.edu.travelo.validation.FieldValidator;
 
@@ -9,15 +22,45 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
+@Entity
+@Table(name = "reservation")
 public class Reservation {
-    private final UUID reservationNumber;
-    private final LocalDateTime reservationTime;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+
+    @Column(nullable = false)
+    private UUID reservationNumber;
+
+    @Column(nullable = false)
+    private LocalDateTime reservationTime;
+
+    @Column(length = 20, nullable = false)
+    @Enumerated(EnumType.STRING)
     private ReservationStatus status;
 
+
+    @OneToMany(mappedBy = "reservation")
     private final Set<Payment> payments = new HashSet<>();
+
+    @ManyToOne
+    @JoinColumn(name = "trip_id", nullable = false)
     private Trip trip;
+
+    @ManyToOne
+    @JoinColumn(name = "discount_id")
     private Discount discount;
+
+    @ManyToMany
+    @JoinTable(
+            name = "seat_reservation",
+            joinColumns = @JoinColumn(name = "seat_id"),
+            inverseJoinColumns = @JoinColumn(name = "reservation_id")
+    )
     private final Set<Seat> seats = new HashSet<>();
+
+    @ManyToOne
+    @JoinColumn(name = "customer_id", nullable = false)
     private Customer customer;
 
     public Reservation(LocalDateTime reservationTime, ReservationStatus status, Trip trip, Customer customer) {
@@ -26,6 +69,7 @@ public class Reservation {
         this.status = FieldValidator.validateObjectNotNull(status, "Status");
 
         assignTrip(trip);
+        assignCustomer(customer);
     }
 
     public Reservation(LocalDateTime reservationTime, ReservationStatus status, Trip trip, Customer customer,
@@ -36,6 +80,9 @@ public class Reservation {
         for (Seat seat : seats) {
             addSeat(seat);
         }
+    }
+
+    public Reservation() {
     }
 
     public void setStatus(ReservationStatus status) {
@@ -138,5 +185,16 @@ public class Reservation {
 
     public Customer getCustomer() {
         return this.customer;
+    }
+
+    public double getTotalPrice() {
+        double total = 0.0;
+        for (Seat seat : seats) {
+                total += seat.getPrice();
+        }
+        double discountAmount = discount == null ? 0.0 : total * discount.getDiscountAmount();
+        total -= discountAmount;
+
+        return Math.max(0.0, total);
     }
 }

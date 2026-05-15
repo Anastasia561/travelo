@@ -1,23 +1,61 @@
 package pl.edu.travelo.domain.model;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import pl.edu.travelo.validation.FieldValidator;
 
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
+@Entity
+@Table(name = "trip")
 public class Trip {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+
     private static final String CURRENCY = "PLN";
+
+    @Column(nullable = false)
     private LocalDateTime departureTime;
+
+    @Column(nullable = false)
     private LocalDateTime arrivalTime;
+
+    @Column(nullable = false)
     private double price;
+
+    @Column(nullable = false)
     private int availablePlaceCount;
+
+    @Column(nullable = false)
     private boolean isFull;
+
+    @Column(nullable = false)
     private boolean isCancelled;
 
+
+    @ManyToOne
+    @JoinColumn(name = "city_id", nullable = false)
     private City startCity;
+
+    @ManyToOne
+    @JoinColumn(name = "destination_id", nullable = false)
     private Destination destination;
+
+    @ManyToOne
+    @JoinColumn(name = "vehicle_id", nullable = false)
     private Vehicle vehicle;
+
+    @OneToMany(mappedBy = "trip")
     private final Set<Reservation> reservations = new HashSet<>();
 
     public Trip(LocalDateTime departureTime, LocalDateTime arrivalTime, double price, int availablePlaceCount,
@@ -45,6 +83,9 @@ public class Trip {
         for (Reservation reservation : reservations) {
             addReservation(reservation);
         }
+    }
+
+    public Trip() {
     }
 
     public LocalDateTime getDepartureTime() {

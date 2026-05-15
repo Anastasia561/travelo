@@ -1,14 +1,37 @@
 package pl.edu.travelo.domain.model;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import pl.edu.travelo.validation.FieldValidator;
 
 import java.time.LocalDateTime;
 
+@Entity
+@Table(name = "shift")
 public class Shift {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+
+    @Column(nullable = false)
     private LocalDateTime startTime;
+
+    @Column(nullable = false)
     private LocalDateTime endTime;
 
+
+    @ManyToOne
+    @JoinColumn(name = "vehicle_id", nullable = false)
     private Vehicle vehicle;
+
+    @ManyToOne
+    @JoinColumn(name = "staff_id", nullable = false)
     private Staff staff;
 
     public Shift(LocalDateTime startTime, LocalDateTime endTime, Vehicle vehicle, Staff staff) {
@@ -20,6 +43,9 @@ public class Shift {
 
         assignVehicle(vehicle);
         assignStaff(staff);
+    }
+
+    public Shift() {
     }
 
     public LocalDateTime getStartTime() {

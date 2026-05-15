@@ -1,12 +1,22 @@
 package pl.edu.travelo.domain.model;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.PrimaryKeyJoinColumn;
+import jakarta.persistence.Table;
 import pl.edu.travelo.domain.enums.AgeGroup;
 import pl.edu.travelo.validation.FieldValidator;
 
 import java.time.LocalDateTime;
 
+@Entity
+@Table(name = "limited_discount")
+@PrimaryKeyJoinColumn(name = "id")
 public class LimitedDiscount extends Discount {
+    @Column(nullable = false)
     private LocalDateTime startTime;
+
+    @Column(nullable = false)
     private LocalDateTime endTime;
 
     public LimitedDiscount(LocalDateTime startTime, LocalDateTime endTime, double discountAmount, String promoCode, AgeGroup ageGroup) {
@@ -25,6 +35,9 @@ public class LimitedDiscount extends Discount {
         FieldValidator.validateDateTimeRange(startTime, endTime);
         this.startTime = startTime;
         this.endTime = endTime;
+    }
+
+    public LimitedDiscount() {
     }
 
     public void setStartTime(LocalDateTime startTime) {

@@ -1,19 +1,48 @@
 package pl.edu.travelo.domain.model;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import pl.edu.travelo.validation.FieldValidator;
 import pl.edu.travelo.domain.enums.VehicleType;
 
 import java.util.HashSet;
 import java.util.Set;
 
+@Entity
+@Table(name = "vehicle")
 public class Vehicle {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+
+    @Column(length = 20, nullable = false)
     private String vehicleNumber;
+
+    @Column(length = 20, nullable = false)
+    @Enumerated(EnumType.STRING)
     private VehicleType vehicleType;
+
+    @Column(nullable = false)
     private int maxRow;
+
+    @Column(nullable = false)
     private int rowWidth;
 
+
+    @OneToMany(mappedBy = "vehicle")
     private final Set<Seat> seats = new HashSet<>();
+
+    @OneToMany(mappedBy = "vehicle")
     private final Set<Trip> trips = new HashSet<>();
+
+    @OneToMany(mappedBy = "vehicle")
     private final Set<Shift> shifts = new HashSet<>();
 
     public Vehicle(String vehicleNumber, VehicleType vehicleType, int maxRow, int rowWidth) {
@@ -36,6 +65,9 @@ public class Vehicle {
         for (Shift shift : shifts) {
             addShift(shift);
         }
+    }
+
+    public Vehicle() {
     }
 
     public String getVehicleNumber() {
