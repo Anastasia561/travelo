@@ -140,6 +140,10 @@ public class Trip {
         isCancelled = cancelled;
     }
 
+    public String getCurrency() {
+        return CURRENCY;
+    }
+
     public void assignCity(City newCity) {
         FieldValidator.validateObjectNotNull(newCity, "City");
 

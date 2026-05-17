@@ -125,4 +125,8 @@ public abstract class Discount {
         if (!this.reservations.contains(reservation)) return;
         this.reservations.remove(reservation);
     }
+
+    public DiscountType getDiscountType() {
+        return discountType;
+    }
 }

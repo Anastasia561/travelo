@@ -58,6 +58,10 @@ public class Seat {
         this.seatNumber = seatNumber;
     }
 
+    public long getId() {
+        return id;
+    }
+
     public boolean isBooked() {
         return isBooked;
     }

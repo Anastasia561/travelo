@@ -13,7 +13,6 @@ import pl.edu.travelo.domain.enums.AgeGroup;
 import pl.edu.travelo.validation.FieldValidator;
 
 import java.time.DayOfWeek;
-import java.util.HashSet;
 import java.util.Set;
 
 @Entity

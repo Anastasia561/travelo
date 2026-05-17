@@ -19,23 +19,31 @@ public class DestinationMapper {
         Set<VehicleResponseDto> vehicles = new HashSet<>();
         for (Trip trip : destination.getTrips()) {
             Vehicle vehicle = trip.getVehicle();
+
             VehicleResponseDto vehicleResponseDto = new VehicleResponseDto(
-                    vehicle.getVehicleNumber(), vehicle.getVehicleType(),
-                    vehicle.getMaxRow(), vehicle.getRowWidth()
+                    vehicle.getVehicleNumber(),
+                    vehicle.getVehicleType(),
+                    vehicle.getMaxRow(),
+                    vehicle.getRowWidth()
             );
             vehicles.add(vehicleResponseDto);
         }
 
-        return new DestinationInfoResponseDto(destination.getName(),
-                destination.getDescription(), destination.getCity().getName(),
-                destination.getCity().getCountry().getName(), vehicles);
+        return new DestinationInfoResponseDto(
+                destination.getName(),
+                destination.getDescription(),
+                destination.getCity().getName(),
+                destination.getCity().getCountry().getName(),
+                vehicles);
     }
 
     public DestinationResponseDto toDto(Destination destination) {
         if (destination == null) return null;
 
-        return new DestinationResponseDto(destination.getName(),
-                destination.getDescription(), destination.getCity().getName(),
+        return new DestinationResponseDto(
+                destination.getName(),
+                destination.getDescription(),
+                destination.getCity().getName(),
                 destination.getCity().getCountry().getName());
     }
 }
