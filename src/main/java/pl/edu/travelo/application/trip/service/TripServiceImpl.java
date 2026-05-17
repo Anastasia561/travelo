@@ -8,6 +8,7 @@ import pl.edu.travelo.application.trip.dto.TripInfoDto;
 import pl.edu.travelo.application.trip.dto.TripResponseDto;
 import pl.edu.travelo.application.trip.mapper.TripMapper;
 import pl.edu.travelo.application.trip.repository.TripRepository;
+import pl.edu.travelo.domain.model.Trip;
 
 @Service
 class TripServiceImpl implements TripService {
@@ -28,6 +29,12 @@ class TripServiceImpl implements TripService {
     public TripInfoDto findById(Long id) {
         return tripRepository.findById(id)
                 .map(tripMapper::toInfoDto)
+                .orElseThrow(() -> new EntityNotFoundException("Trip not found"));
+    }
+
+    @Override
+    public Trip findTripById(Long id) {
+        return tripRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Trip not found"));
     }
 }

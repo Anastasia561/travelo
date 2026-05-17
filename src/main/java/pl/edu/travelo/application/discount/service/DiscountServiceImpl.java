@@ -9,6 +9,7 @@ import pl.edu.travelo.application.discount.repository.DiscountRepository;
 import pl.edu.travelo.application.discount.repository.LimitedDiscountRepository;
 import pl.edu.travelo.application.discount.repository.RegularDiscountRepository;
 import pl.edu.travelo.domain.enums.AgeGroup;
+import pl.edu.travelo.domain.model.Discount;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -43,6 +44,12 @@ class DiscountServiceImpl implements DiscountService {
             throw new EntityNotFoundException("Discount not found");
         }
         return true;
+    }
+
+    @Override
+    public Discount findByPromeCode(String promeCode) {
+        return discountRepository.findDiscountByPromeCode(promeCode)
+                .orElseThrow(() -> new EntityNotFoundException("Discount not found"));
     }
 
     @Override

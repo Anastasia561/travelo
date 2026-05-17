@@ -2,6 +2,7 @@ package pl.edu.travelo.application.vehicle.mapper;
 
 import org.springframework.stereotype.Component;
 import pl.edu.travelo.application.destination.dto.DestinationResponseDto;
+import pl.edu.travelo.application.seat.mapper.SeatMapper;
 import pl.edu.travelo.domain.model.Destination;
 import pl.edu.travelo.domain.model.Seat;
 import pl.edu.travelo.domain.model.Trip;
@@ -16,6 +17,12 @@ import java.util.Set;
 
 @Component
 public class VehicleMapper {
+    private final SeatMapper seatMapper;
+
+    public VehicleMapper(SeatMapper seatMapper) {
+        this.seatMapper = seatMapper;
+    }
+
     public VehicleResponseDto toDto(Vehicle vehicle) {
         if (vehicle == null) return null;
 
@@ -55,11 +62,7 @@ public class VehicleMapper {
         Set<SeatDto> seats = new HashSet<>();
 
         for (Seat seat : vehicle.getSeats()) {
-            SeatDto dto = new SeatDto(
-                    seat.getId(),
-                    seat.getSeatNumber(),
-                    seat.getRow(),
-                    seat.isBooked());
+            SeatDto dto = seatMapper.toDto(seat);
             seats.add(dto);
         }
 

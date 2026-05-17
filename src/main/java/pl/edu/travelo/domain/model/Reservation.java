@@ -80,6 +80,29 @@ public class Reservation {
         this.discount = FieldValidator.validateObjectNotNull(discount, "Discount");
     }
 
+    public Reservation(LocalDateTime reservationTime, ReservationStatus status, Trip trip, Customer customer,
+                       Set<Seat> seats, Discount discount) {
+
+        this(reservationTime, status, trip, customer, seats);
+        this.discount = FieldValidator.validateObjectNotNull(discount, "Discount");
+    }
+
+    public Reservation(LocalDateTime reservationTime, ReservationStatus status, Trip trip, Customer customer,
+                       Set<Seat> seats) {
+
+        this.reservationNumber = UUID.randomUUID();
+        this.reservationTime = FieldValidator.validateObjectNotNull(reservationTime, "Reservation Time");
+        this.status = FieldValidator.validateObjectNotNull(status, "Status");
+        FieldValidator.validateObjectNotNull(seats, "Seat list");
+
+        assignTrip(trip);
+        assignCustomer(customer);
+        for (Seat s : seats) {
+            addSeat(s);
+        }
+    }
+
+
     protected Reservation() {
     }
 

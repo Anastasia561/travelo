@@ -3,6 +3,7 @@ package pl.edu.travelo.application.trip.mapper;
 import org.springframework.stereotype.Component;
 import pl.edu.travelo.application.destination.dto.DestinationResponseDto;
 import pl.edu.travelo.application.destination.mapper.DestinationMapper;
+import pl.edu.travelo.application.trip.dto.TripReservationInfoDto;
 import pl.edu.travelo.domain.model.Trip;
 import pl.edu.travelo.application.trip.dto.TripInfoDto;
 import pl.edu.travelo.application.trip.dto.TripResponseDto;
@@ -52,6 +53,20 @@ public class TripMapper {
                 trip.getStartCity().getName(),
                 destination,
                 vehicleInfo
+        );
+    }
+
+    public TripReservationInfoDto toReservationInfoDto(Trip trip) {
+        if (trip == null) return null;
+
+        DestinationResponseDto destination = destinationMapper.toDto(trip.getDestination());
+        return new TripReservationInfoDto(
+                trip.getDepartureTime(),
+                trip.getArrivalTime(),
+                trip.getStartCity().getName(),
+                destination,
+                trip.getVehicle().getVehicleType(),
+                trip.getVehicle().getVehicleNumber()
         );
     }
 }

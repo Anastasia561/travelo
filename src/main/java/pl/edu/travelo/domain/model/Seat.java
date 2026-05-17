@@ -105,9 +105,9 @@ public class Seat {
 
     public double getPrice() {
         return switch (vehicle.getVehicleType()) {
-            case BUS -> 20.0;
-            case PLAIN -> 150.0;
-            case TRAIN -> 300.0;
+            case COACH_BUS -> 70.0;
+            case SHUTTLE_BUS -> 40.0;
+            case TRANSIT_BUS -> 100.0;
         };
     }
 }

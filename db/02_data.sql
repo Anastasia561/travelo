@@ -20,11 +20,16 @@ VALUES ('Central Station', 'Main railway hub', 1),
        ('Puerta del Sol', 'Kilometre Zero point', 5);
 
 INSERT INTO person (first_name, last_name, email, password, birthdate)
-VALUES ('John', 'Doe', 'john@example.com', '$2a$10$vLrzSWN6uhaiMxMaiKwG4u77Dzu81A4/V.vL.hU0Ns2Gsz56HnIKG', '1990-05-15'),
-       ('Jane', 'Smith', 'jane@example.com', '$2a$10$vLrzSWN6uhaiMxMaiKwG4u77Dzu81A4/V.vL.hU0Ns2Gsz56HnIKG', '1985-08-20'),
-       ('Alice', 'Brown', 'alice@example.com', '$2a$10$vLrzSWN6uhaiMxMaiKwG4u77Dzu81A4/V.vL.hU0Ns2Gsz56HnIKG', '1992-11-30'),
-       ('Bob', 'Wilson', 'bob@example.com', '$2a$10$vLrzSWN6uhaiMxMaiKwG4u77Dzu81A4/V.vL.hU0Ns2Gsz56HnIKG', '1978-03-10'),
-       ('Charlie', 'Davis', 'charlie@example.com', '$2a$10$vLrzSWN6uhaiMxMaiKwG4u77Dzu81A4/V.vL.hU0Ns2Gsz56HnIKG', '2000-01-01');
+VALUES ('John', 'Doe', 'john@example.com', '$2a$10$vLrzSWN6uhaiMxMaiKwG4u77Dzu81A4/V.vL.hU0Ns2Gsz56HnIKG',
+        '1990-05-15'),
+       ('Jane', 'Smith', 'jane@example.com', '$2a$10$vLrzSWN6uhaiMxMaiKwG4u77Dzu81A4/V.vL.hU0Ns2Gsz56HnIKG',
+        '1985-08-20'),
+       ('Alice', 'Brown', 'alice@example.com', '$2a$10$vLrzSWN6uhaiMxMaiKwG4u77Dzu81A4/V.vL.hU0Ns2Gsz56HnIKG',
+        '1992-11-30'),
+       ('Bob', 'Wilson', 'bob@example.com', '$2a$10$vLrzSWN6uhaiMxMaiKwG4u77Dzu81A4/V.vL.hU0Ns2Gsz56HnIKG',
+        '1978-03-10'),
+       ('Charlie', 'Davis', 'charlie@example.com', '$2a$10$vLrzSWN6uhaiMxMaiKwG4u77Dzu81A4/V.vL.hU0Ns2Gsz56HnIKG',
+        '2000-01-01');
 -- pass 111
 
 INSERT INTO customer (id, loyalty_points)
@@ -37,18 +42,120 @@ VALUES (4, '2020-01-01', 3500.00, 'FULL_TIME'),
        (5, '2022-06-15', 3200.00, 'PART_TIME');
 
 INSERT INTO vehicle (vehicle_number, vehicle_type, max_row, row_width)
-VALUES ('001', 'BUS', 10, 4),
-       ('002', 'BUS', 5, 3),
-       ('DF456', 'TRAIN', 10, 4),
-       ('GG6689', 'PLAIN', 15, 6),
-       ('Df789', 'BUS', 10, 4);
+VALUES ('001', 'COACH_BUS', 10, 4),
+       ('002', 'SHUTTLE_BUS', 5, 3),
+       ('DF456', 'TRANSIT_BUS', 6, 5),
+       ('GG6689', 'COACH_BUS', 8, 5),
+       ('Df789', 'SHUTTLE_BUS', 5, 2);
+
 
 INSERT INTO seat (seat_number, row, is_booked, vehicle_id)
-VALUES (1, 1, false, 1),
-       (2, 1, false, 1),
-       (3, 2, true, 1),
-       (1, 1, false, 2),
-       (1, 1, false, 3);
+SELECT s.seat_num,
+       r.row_num,
+       false,
+       1
+FROM (SELECT 1 AS row_num
+      UNION ALL
+      SELECT 2
+      UNION ALL
+      SELECT 3
+      UNION ALL
+      SELECT 4
+      UNION ALL
+      SELECT 5
+      UNION ALL
+      SELECT 6
+      UNION ALL
+      SELECT 7
+      UNION ALL
+      SELECT 8
+      UNION ALL
+      SELECT 9
+      UNION ALL
+      SELECT 10) r
+         CROSS JOIN
+     (SELECT 1 AS seat_num UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4) s;
+
+
+INSERT INTO seat (seat_number, row, is_booked, vehicle_id)
+SELECT s.seat_num,
+       r.row_num,
+       false,
+       2
+FROM (SELECT 1 AS row_num
+      UNION ALL
+      SELECT 2
+      UNION ALL
+      SELECT 3
+      UNION ALL
+      SELECT 4
+      UNION ALL
+      SELECT 5) r
+         CROSS JOIN
+         (SELECT 1 AS seat_num UNION ALL SELECT 2 UNION ALL SELECT 3) s;
+
+
+INSERT INTO seat (seat_number, row, is_booked, vehicle_id)
+SELECT s.seat_num,
+       r.row_num,
+       false,
+       3
+FROM (SELECT 1 AS row_num
+      UNION ALL
+      SELECT 2
+      UNION ALL
+      SELECT 3
+      UNION ALL
+      SELECT 4
+      UNION ALL
+      SELECT 5
+      UNION ALL
+      SELECT 6) r
+         CROSS JOIN
+     (SELECT 1 AS seat_num UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 UNION ALL SELECT 5) s;
+
+
+INSERT INTO seat (seat_number, row, is_booked, vehicle_id)
+SELECT s.seat_num,
+       r.row_num,
+       false,
+       4
+FROM (SELECT 1 AS row_num
+      UNION ALL
+      SELECT 2
+      UNION ALL
+      SELECT 3
+      UNION ALL
+      SELECT 4
+      UNION ALL
+      SELECT 5
+      UNION ALL
+      SELECT 6
+      UNION ALL
+      SELECT 7
+      UNION ALL
+      SELECT 8) r
+         CROSS JOIN
+     (SELECT 1 AS seat_num UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 UNION ALL SELECT 5) s;
+
+
+INSERT INTO seat (seat_number, row, is_booked, vehicle_id)
+SELECT s.seat_num,
+       r.row_num,
+       false,
+       5
+FROM (SELECT 1 AS row_num
+      UNION ALL
+      SELECT 2
+      UNION ALL
+      SELECT 3
+      UNION ALL
+      SELECT 4
+      UNION ALL
+      SELECT 5) r
+         CROSS JOIN
+         (SELECT 1 AS seat_num UNION ALL SELECT 2) s;
+
 
 INSERT INTO trip (departure_time, arrival_time, price, available_place_count, is_full, is_cancelled, vehicle_id,
                   city_id, destination_id)
