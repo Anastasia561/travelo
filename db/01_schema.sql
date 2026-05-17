@@ -81,7 +81,7 @@ CREATE TABLE person
 -- Table: regular_discount
 CREATE TABLE regular_discount
 (
-    id        bigint      NOT NULL,
+    id bigint NOT NULL,
     CONSTRAINT regular_discount_pk PRIMARY KEY (id)
 );
 
@@ -172,6 +172,16 @@ CREATE TABLE discount_days
     discount_id bigint      NOT NULL,
     day_of_week varchar(20) NOT NULL,
     CONSTRAINT discount_days_fk FOREIGN KEY (discount_id) REFERENCES regular_discount (id)
+);
+
+-- Table: refresh_token
+CREATE TABLE refresh_token
+(
+    id         bigserial PRIMARY KEY,
+    person_id bigint      NOT NULL,
+    token      VARCHAR(512) NOT NULL,
+    CONSTRAINT fk_refresh_token_user
+        FOREIGN KEY (person_id) REFERENCES person (id)
 );
 
 -- foreign keys

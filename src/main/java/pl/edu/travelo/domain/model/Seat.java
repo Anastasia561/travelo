@@ -9,7 +9,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import pl.edu.travelo.validation.FieldValidator;
+import pl.edu.travelo.domain.validation.FieldValidator;
 
 import java.util.HashSet;
 import java.util.Set;

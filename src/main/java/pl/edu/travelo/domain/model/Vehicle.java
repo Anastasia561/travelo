@@ -10,7 +10,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import pl.edu.travelo.validation.FieldValidator;
+import pl.edu.travelo.domain.validation.FieldValidator;
 import pl.edu.travelo.domain.enums.VehicleType;
 
 import java.util.HashSet;

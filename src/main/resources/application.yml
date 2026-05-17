@@ -13,3 +13,7 @@ spring:
 server:
   servlet:
     context-path: /api
+
+jwt:
+  accessTokenExpirationTimeMs: 900_000      # 15 min
+  refreshTokenExpirationTimeMs: 2_592_000_000 # 30 days

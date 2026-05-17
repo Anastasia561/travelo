@@ -5,7 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.Table;
 import pl.edu.travelo.domain.enums.AgeGroup;
-import pl.edu.travelo.validation.FieldValidator;
+import pl.edu.travelo.domain.validation.FieldValidator;
 
 import java.time.LocalDateTime;
 

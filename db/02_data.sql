@@ -20,11 +20,12 @@ VALUES ('Central Station', 'Main railway hub', 1),
        ('Puerta del Sol', 'Kilometre Zero point', 5);
 
 INSERT INTO person (first_name, last_name, email, password, birthdate)
-VALUES ('John', 'Doe', 'john@example.com', 'hash_1', '1990-05-15'),
-       ('Jane', 'Smith', 'jane@example.com', 'hash_2', '1985-08-20'),
-       ('Alice', 'Brown', 'alice@example.com', 'hash_3', '1992-11-30'),
-       ('Bob', 'Wilson', 'bob@example.com', 'hash_4', '1978-03-10'),
-       ('Charlie', 'Davis', 'charlie@example.com', 'hash_5', '2000-01-01');
+VALUES ('John', 'Doe', 'john@example.com', '$2a$10$vLrzSWN6uhaiMxMaiKwG4u77Dzu81A4/V.vL.hU0Ns2Gsz56HnIKG', '1990-05-15'),
+       ('Jane', 'Smith', 'jane@example.com', '$2a$10$vLrzSWN6uhaiMxMaiKwG4u77Dzu81A4/V.vL.hU0Ns2Gsz56HnIKG', '1985-08-20'),
+       ('Alice', 'Brown', 'alice@example.com', '$2a$10$vLrzSWN6uhaiMxMaiKwG4u77Dzu81A4/V.vL.hU0Ns2Gsz56HnIKG', '1992-11-30'),
+       ('Bob', 'Wilson', 'bob@example.com', '$2a$10$vLrzSWN6uhaiMxMaiKwG4u77Dzu81A4/V.vL.hU0Ns2Gsz56HnIKG', '1978-03-10'),
+       ('Charlie', 'Davis', 'charlie@example.com', '$2a$10$vLrzSWN6uhaiMxMaiKwG4u77Dzu81A4/V.vL.hU0Ns2Gsz56HnIKG', '2000-01-01');
+-- pass 111
 
 INSERT INTO customer (id, loyalty_points)
 VALUES (1, 150),

@@ -5,6 +5,9 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -18,8 +21,9 @@ import java.util.List;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
+
     @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<ResponseWrapper<Object>> handleResourceNotFound(RuntimeException ex) {
+    public ResponseEntity<ResponseWrapper<Object>> handleResourceNotFound(EntityNotFoundException ex) {
         return buildError(HttpStatus.NOT_FOUND, ex.getMessage());
     }
 
@@ -31,6 +35,17 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ResponseWrapper<Object>> handleGenericException(Exception ex) {
         return buildError(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage());
+    }
+
+    @ExceptionHandler({InvalidRefreshTokenException.class, UsernameNotFoundException.class,
+            BadCredentialsException.class})
+    public ResponseEntity<ResponseWrapper<Object>> handleInvalidRefreshTokenException(RuntimeException ex) {
+        return buildError(HttpStatus.UNAUTHORIZED, ex.getMessage());
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<ResponseWrapper<Object>> handleAccessDeniedException(AccessDeniedException ex) {
+        return buildError(HttpStatus.FORBIDDEN, "Access denied");
     }
 
     @Override

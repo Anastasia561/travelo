@@ -10,7 +10,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.Table;
 import pl.edu.travelo.domain.enums.AgeGroup;
-import pl.edu.travelo.validation.FieldValidator;
+import pl.edu.travelo.domain.validation.FieldValidator;
 
 import java.time.DayOfWeek;
 import java.util.Set;

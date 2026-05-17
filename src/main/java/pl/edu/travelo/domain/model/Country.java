@@ -7,7 +7,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import pl.edu.travelo.validation.FieldValidator;
+import pl.edu.travelo.domain.validation.FieldValidator;
 
 import java.util.HashSet;
 import java.util.Set;

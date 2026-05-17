@@ -8,7 +8,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
 import jakarta.persistence.Table;
-import pl.edu.travelo.validation.FieldValidator;
+import pl.edu.travelo.domain.validation.FieldValidator;
 
 import java.time.LocalDate;
 import java.util.Optional;
@@ -73,6 +73,10 @@ public abstract class Person {
 
     public void setBirthDate(LocalDate birthdate) {
         this.birthdate = FieldValidator.validateDateNotInTheFuture(birthdate, "Birth Date");
+    }
+
+    public long getId() {
+        return id;
     }
 
     public String getFirstName() {
