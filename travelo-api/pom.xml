@@ -11,8 +11,8 @@
     <groupId>pl.edu</groupId>
     <artifactId>travelo</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>travelo</name>
-    <description>travelo</description>
+    <name>travelo-api</name>
+    <description>travelo-api</description>
     <url/>
     <licenses>
         <license/>
