@@ -1,6 +1,5 @@
 import {Routes, Route} from 'react-router-dom'
 import Layout from "./components/layout/Layout.jsx";
-import Home from "./pages/Home.jsx";
 import Login from "./pages/Login.jsx";
 import Unauthorized from "./pages/Unauthorized.jsx";
 import Missing from "./pages/Missing.jsx";
@@ -8,6 +7,7 @@ import RequireAuth from "./components/auth/RequireAuth.jsx";
 import PersistLogin from "./components/auth/PersistLogin.jsx";
 import ProtectedLayout from "./components/layout/ProtectedLayout.jsx";
 import Providers from "./context/Providers.jsx";
+import TripList from "./components/listing/TripList.jsx";
 
 function App() {
 
@@ -23,7 +23,7 @@ function App() {
                     <Route element={<ProtectedLayout/>}>
 
                         <Route element={<RequireAuth allowedRoles={["ROLE_USER"]}/>}>
-                            <Route path="home" element={<Home/>}/>
+                            <Route path="trips" element={<TripList/>}/>
 
                         </Route>
 

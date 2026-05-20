@@ -10,8 +10,7 @@ const NavBar = () => {
     const {auth} = useAuth();
 
     const navLinks = [
-        {to: "/home", label: "Home", roles: ["ROLE_USER"]},
-        {to: "/hh", label: "Trips", roles: ["ROLE_USER"]},
+        {to: "/trips", label: "Trips", roles: ["ROLE_USER"]},
         {to: "/hh", label: "Vehicles", roles: ["ROLE_USER"]},
         {to: "/hh", label: "Destinations", roles: ["ROLE_USER"]}
     ];
@@ -24,10 +23,10 @@ const NavBar = () => {
     return (
         <div className="header">
 
-            <NavLink to="/home" className="header-left">
+            <div className="header-left">
                 <img src={logo} alt="Logo" className="logo"/>
                 <h1 className="title">Travelo</h1>
-            </NavLink>
+            </div>
 
             <nav className="header-nav">
 

@@ -25,20 +25,18 @@ const TripList = () => {
                     </div>
                 ) : trips.length > 0 ? (
                     trips.map(t => {
-                        // 1. Determine Status Badges
                         let statusBadge = null;
                         if (t.isCancelled) {
                             statusBadge =
                                 <span className="badge bg-danger-subtle text-danger px-2 py-1">Cancelled</span>;
                         } else if (t.isFull) {
                             statusBadge =
-                                <span className="badge bg-warning-subtle text-warning-dark px-2 py-1">Full</span>;
+                                <span className="badge bg-warning-subtle text-warning px-2 py-1">Full</span>;
                         } else if (t.availablePlaceCount <= 3) {
                             statusBadge = <span
-                                className="badge bg-info-subtle text-info-dark px-2 py-1">{t.availablePlaceCount} seats left!</span>;
+                                className="badge bg-info-subtle text-info px-2 py-1">{t.availablePlaceCount} seats left!</span>;
                         }
 
-                        // 2. Disable booking if unavailable
                         const isBookable = !t.isCancelled && !t.isFull;
 
                         return (
@@ -46,7 +44,6 @@ const TripList = () => {
                                  className={`card shadow-sm border-start ${t.isCancelled ? 'border-danger border-3' : 'border-primary border-3'} mb-3`}>
                                 <div className="card-body p-4">
 
-                                    {/* Top Row: Vehicle & Status Badges */}
                                     <div className="d-flex justify-content-between align-items-center mb-3">
                                         <span className="text-muted small fw-semibold text-uppercase tracking-wider">
                                             🚌 {t.vehicleType || 'Bus'}
@@ -54,7 +51,6 @@ const TripList = () => {
                                         {statusBadge}
                                     </div>
 
-                                    {/* Middle Row: The Route Journey */}
                                     <div className="row align-items-center mb-4">
                                         <div className="col-md-4">
                                             <h5 className="mb-1 fw-bold">{t.startCityName}</h5>
@@ -64,19 +60,18 @@ const TripList = () => {
                                         </div>
 
                                         <div className="col-md-4 text-center my-2 my-md-0 position-relative">
-                                            <div className="text-muted small">➡️</div>
-                                            <hr className="d-none d-md-block my-1 text-muted opacity-25"/>
+                                            <div className="text-muted">➡️</div>
                                         </div>
 
                                         <div className="col-md-4 text-md-end">
                                             <h5 className="mb-1 fw-bold">{t.destinationName}</h5>
+                                            <h5 className="mb-1 text-muted">{t.destinationCityName}</h5>
                                             <p className="text-muted small mb-0">
                                                 {t.arrivalTime ? dayjs(t.arrivalTime).format('DD MMM • HH:mm') : '---'}
                                             </p>
                                         </div>
                                     </div>
 
-                                    {/* Bottom Row: Price & Call to Action */}
                                     <div className="d-flex justify-content-between align-items-center pt-3 border-top">
                                         <div>
                                             <span className="text-muted small d-block">Price per seat</span>
@@ -84,6 +79,13 @@ const TripList = () => {
                                                 {t.price} <span
                                                 className="small fs-6 fw-normal text-muted">{t.currency}</span>
                                             </span>
+                                        </div>
+
+                                        <div>
+                                            <span className="text-muted small d-block">Available seats</span>
+                                            <span className={`fs-5 text-muted ${t.availablePlaceCount === 0 ? 'text-danger' : 'text-dark'}`}>
+                                                    {t.availablePlaceCount}
+                                                </span>
                                         </div>
 
                                         <button
@@ -101,7 +103,6 @@ const TripList = () => {
                 ) : (
                     <div className="text-center p-5 text-muted">
                         <p className="fs-5 mb-1">No trips found</p>
-                        <span className="small">Try adjusting your filters or search criteria.</span>
                     </div>
                 )}
             </div>
