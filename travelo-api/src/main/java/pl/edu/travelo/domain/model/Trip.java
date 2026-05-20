@@ -88,6 +88,10 @@ public class Trip {
     protected Trip() {
     }
 
+    public long getId() {
+        return id;
+    }
+
     public LocalDateTime getDepartureTime() {
         return departureTime;
     }
@@ -125,11 +129,7 @@ public class Trip {
     }
 
     public boolean isFull() {
-        return isFull;
-    }
-
-    public void setFull(boolean full) {
-        isFull = full;
+        return availablePlaceCount == 0;
     }
 
     public boolean isCancelled() {

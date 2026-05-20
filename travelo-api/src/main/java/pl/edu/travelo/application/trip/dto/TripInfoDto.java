@@ -6,6 +6,7 @@ import pl.edu.travelo.application.vehicle.dto.VehicleBookingInfoResponseDto;
 import java.time.LocalDateTime;
 
 public record TripInfoDto(
+        long id,
         String currency,
         LocalDateTime departureTime,
         LocalDateTime arrivalTime,

@@ -24,6 +24,7 @@ public class TripMapper {
         if (trip == null) return null;
 
         return new TripResponseDto(
+                trip.getId(),
                 trip.getCurrency(),
                 trip.getDepartureTime(),
                 trip.getArrivalTime(),
@@ -32,6 +33,7 @@ public class TripMapper {
                 trip.isFull(),
                 trip.isCancelled(),
                 trip.getStartCity().getName(),
+                trip.getDestination().getCity().getName(),
                 trip.getDestination().getName(),
                 trip.getVehicle().getVehicleType());
     }
@@ -43,6 +45,7 @@ public class TripMapper {
         VehicleBookingInfoResponseDto vehicleInfo = vehicleMapper.toBookingInfoDto(trip.getVehicle());
 
         return new TripInfoDto(
+                trip.getId(),
                 trip.getCurrency(),
                 trip.getDepartureTime(),
                 trip.getArrivalTime(),
@@ -61,6 +64,7 @@ public class TripMapper {
 
         DestinationResponseDto destination = destinationMapper.toDto(trip.getDestination());
         return new TripReservationInfoDto(
+                trip.getId(),
                 trip.getDepartureTime(),
                 trip.getArrivalTime(),
                 trip.getStartCity().getName(),

@@ -6,6 +6,7 @@ import pl.edu.travelo.domain.enums.VehicleType;
 import java.time.LocalDateTime;
 
 public record TripReservationInfoDto(
+        long id,
         LocalDateTime departureTime,
         LocalDateTime arrivalTime,
         String startCity,

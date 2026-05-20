@@ -5,6 +5,7 @@ import pl.edu.travelo.domain.enums.VehicleType;
 import java.time.LocalDateTime;
 
 public record TripResponseDto(
+        long id,
         String currency,
         LocalDateTime departureTime,
         LocalDateTime arrivalTime,
@@ -13,6 +14,7 @@ public record TripResponseDto(
         boolean isFull,
         boolean isCancelled,
         String startCityName,
+        String destinationCityName,
         String destinationName,
         VehicleType vehicleType
 ) {

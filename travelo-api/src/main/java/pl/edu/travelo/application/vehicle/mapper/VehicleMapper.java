@@ -27,6 +27,7 @@ public class VehicleMapper {
         if (vehicle == null) return null;
 
         return new VehicleResponseDto(
+                vehicle.getId(),
                 vehicle.getVehicleNumber(),
                 vehicle.getVehicleType(),
                 vehicle.getMaxRow(),

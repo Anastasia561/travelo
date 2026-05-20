@@ -45,8 +45,22 @@ class ReservationServiceImpl implements ReservationService {
     @Override
     public ReservationResponseDto create(ReservationCreateDto createDto, long customerId) {
         Trip trip = tripService.findTripById(createDto.tripId());
+        if (trip.isFull() || trip.isCancelled()) {
+            throw new IllegalStateException("Trip is not available for booking");
+        }
+
         Set<Seat> seats = seatService.findAllByIds(createDto.seatIds());
+
+        boolean hasBookedSeat = seats.stream()
+                .anyMatch(Seat::isBooked);
+
+        if (hasBookedSeat) {
+            throw new IllegalStateException("One or more selected seats are already booked.");
+        }
+
         Customer customer = customerService.findById(customerId);
+
+        trip.setAvailablePlaceCount(trip.getAvailablePlaceCount() - 1);
 
         Reservation reservation;
 

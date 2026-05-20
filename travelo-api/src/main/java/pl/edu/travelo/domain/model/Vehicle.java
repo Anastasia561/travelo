@@ -82,6 +82,10 @@ public class Vehicle {
     protected Vehicle() {
     }
 
+    public long getId() {
+        return id;
+    }
+
     public String getVehicleNumber() {
         return vehicleNumber;
     }

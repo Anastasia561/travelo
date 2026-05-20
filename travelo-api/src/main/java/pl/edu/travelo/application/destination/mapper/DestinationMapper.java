@@ -21,6 +21,7 @@ public class DestinationMapper {
             Vehicle vehicle = trip.getVehicle();
 
             VehicleResponseDto vehicleResponseDto = new VehicleResponseDto(
+                    vehicle.getId(),
                     vehicle.getVehicleNumber(),
                     vehicle.getVehicleType(),
                     vehicle.getMaxRow(),

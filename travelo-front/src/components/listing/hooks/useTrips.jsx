@@ -1,14 +1,14 @@
 import useAxiosPrivate from "../../../hooks/auth/useAxiosPrivate.jsx";
 import {useQuery} from "@tanstack/react-query";
 
-export const usePatients = (page = 0, size = 5, search = "") => {
+export const useTrips = (page = 0, size = 5) => {
     const axiosPrivate = useAxiosPrivate();
 
     return useQuery({
-        queryKey: ["doctors", page, size, search],
+        queryKey: ["trips", page, size],
         queryFn: async () => {
-            const res = await axiosPrivate.get("/patients", {
-                params: {page, size, search: search || undefined},
+            const res = await axiosPrivate.get("/trips", {
+                params: {page, size},
             });
 
             if (res.data.error) throw new Error(res.data.error);
