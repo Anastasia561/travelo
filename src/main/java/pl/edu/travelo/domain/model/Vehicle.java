@@ -13,6 +13,7 @@ import jakarta.persistence.Table;
 import pl.edu.travelo.domain.validation.FieldValidator;
 import pl.edu.travelo.domain.enums.VehicleType;
 
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -46,18 +47,26 @@ public class Vehicle {
     @OneToMany(mappedBy = "vehicle")
     private final Set<Shift> shifts = new HashSet<>();
 
-    public Vehicle(String vehicleNumber, VehicleType vehicleType, int maxRow, int rowWidth, int seatNumber, int row) {
+    public Vehicle(String vehicleNumber, VehicleType vehicleType, int maxRow, int rowWidth, int seatNumber, int row,
+                   Staff staff, LocalDateTime startTime, LocalDateTime endTime) {
         setVehicleNumber(vehicleNumber);
         setVehicleType(vehicleType);
         setMaxRow(maxRow);
         setRowWidth(rowWidth);
 
         addSeat(seatNumber, row);
+        FieldValidator.validateObjectNotNull(staff, "Staff");
+        addShift(new Shift(startTime, endTime, this, staff));
     }
 
     public Vehicle(String vehicleNumber, VehicleType vehicleType, int maxRow, int rowWidth, int seatNumber, int row,
                    Set<Trip> trips, Set<Shift> shifts) {
-        this(vehicleNumber, vehicleType, maxRow, rowWidth, seatNumber, row);
+
+        setVehicleNumber(vehicleNumber);
+        setVehicleType(vehicleType);
+        setMaxRow(maxRow);
+        setRowWidth(rowWidth);
+        addSeat(seatNumber, row);
 
         FieldValidator.validateObjectNotNull(trips, "Trips list");
         for (Trip trip : trips) {
