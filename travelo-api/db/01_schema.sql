@@ -148,7 +148,6 @@ CREATE TABLE trip
     arrival_time          timestamp      NOT NULL,
     price                 decimal(10, 2) NOT NULL,
     available_place_count int            NOT NULL,
-    is_full               boolean        NOT NULL,
     is_cancelled          boolean        NOT NULL,
     vehicle_id            bigint         NOT NULL,
     city_id               bigint         NOT NULL,

@@ -55,6 +55,10 @@ public class Destination {
     protected Destination() {
     }
 
+    public long getId() {
+        return id;
+    }
+
     public String getName() {
         return name;
     }

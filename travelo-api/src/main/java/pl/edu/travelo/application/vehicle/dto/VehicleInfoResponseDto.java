@@ -8,8 +8,6 @@ import java.util.Set;
 public record VehicleInfoResponseDto(
         String number,
         VehicleType type,
-        int maxRow,
-        int rowWidth,
         Set<DestinationResponseDto> destinations
 ) {
 }

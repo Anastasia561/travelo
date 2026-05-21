@@ -42,6 +42,7 @@ public class VehicleMapper {
             Destination destination = trip.getDestination();
 
             DestinationResponseDto destinationDto = new DestinationResponseDto(
+                    destination.getId(),
                     destination.getName(),
                     destination.getDescription(),
                     destination.getCity().getName(),
@@ -53,8 +54,6 @@ public class VehicleMapper {
         return new VehicleInfoResponseDto(
                 vehicle.getVehicleNumber(),
                 vehicle.getVehicleType(),
-                vehicle.getMaxRow(),
-                vehicle.getRowWidth(),
                 destinations);
     }
 

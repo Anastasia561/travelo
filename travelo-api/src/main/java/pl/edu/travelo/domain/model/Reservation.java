@@ -208,13 +208,16 @@ public class Reservation {
         return this.customer;
     }
 
-    public double getTotalPrice() {
+    public double getTotalPrice(int loyaltyPoints) {
         double total = 0.0;
         for (Seat seat : seats) {
             total += seat.getPrice();
         }
         double discountAmount = discount == null ? 0.0 : total * discount.getDiscountAmount();
         total -= discountAmount;
+
+        double loyaltyDiscount = loyaltyPoints * 0.01;
+        total -= loyaltyDiscount;
 
         return Math.max(0.0, total);
     }

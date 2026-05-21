@@ -59,6 +59,7 @@ class ReservationServiceImpl implements ReservationService {
         }
 
         Customer customer = customerService.findById(customerId);
+        customer.setLoyaltyPoints(customer.getLoyaltyPoints() - createDto.loyaltyPoints());
 
         trip.setAvailablePlaceCount(trip.getAvailablePlaceCount() - 1);
 
@@ -75,6 +76,6 @@ class ReservationServiceImpl implements ReservationService {
 
         reservationRepository.save(reservation);
 
-        return reservationMapper.toResponseDto(reservation);
+        return reservationMapper.toResponseDto(reservation, reservation.getTotalPrice(createDto.loyaltyPoints()));
     }
 }

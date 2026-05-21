@@ -37,9 +37,6 @@ public class Trip {
     private int availablePlaceCount;
 
     @Column(nullable = false)
-    private boolean isFull;
-
-    @Column(nullable = false)
     private boolean isCancelled;
 
 
@@ -67,7 +64,6 @@ public class Trip {
         this.arrivalTime = arrivalTime;
         setPrice(price);
         setAvailablePlaceCount(availablePlaceCount);
-        this.isFull = false;
         this.isCancelled = false;
 
         assignCity(startCity);

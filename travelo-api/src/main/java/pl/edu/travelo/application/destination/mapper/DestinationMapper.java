@@ -32,9 +32,6 @@ public class DestinationMapper {
 
         return new DestinationInfoResponseDto(
                 destination.getName(),
-                destination.getDescription(),
-                destination.getCity().getName(),
-                destination.getCity().getCountry().getName(),
                 vehicles);
     }
 
@@ -42,6 +39,7 @@ public class DestinationMapper {
         if (destination == null) return null;
 
         return new DestinationResponseDto(
+                destination.getId(),
                 destination.getName(),
                 destination.getDescription(),
                 destination.getCity().getName(),
