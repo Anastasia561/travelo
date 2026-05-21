@@ -49,10 +49,9 @@ VALUES ('001', 'COACH_BUS', 10, 4),
        ('Df789', 'SHUTTLE_BUS', 5, 2);
 
 
-INSERT INTO seat (seat_number, row, is_booked, vehicle_id)
+INSERT INTO seat (seat_number, row, vehicle_id)
 SELECT s.seat_num,
        r.row_num,
-       false,
        1
 FROM (SELECT 1 AS row_num
       UNION ALL
@@ -77,10 +76,9 @@ FROM (SELECT 1 AS row_num
      (SELECT 1 AS seat_num UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4) s;
 
 
-INSERT INTO seat (seat_number, row, is_booked, vehicle_id)
+INSERT INTO seat (seat_number, row, vehicle_id)
 SELECT s.seat_num,
        r.row_num,
-       false,
        2
 FROM (SELECT 1 AS row_num
       UNION ALL
@@ -95,10 +93,9 @@ FROM (SELECT 1 AS row_num
          (SELECT 1 AS seat_num UNION ALL SELECT 2 UNION ALL SELECT 3) s;
 
 
-INSERT INTO seat (seat_number, row, is_booked, vehicle_id)
+INSERT INTO seat (seat_number, row, vehicle_id)
 SELECT s.seat_num,
        r.row_num,
-       false,
        3
 FROM (SELECT 1 AS row_num
       UNION ALL
@@ -115,10 +112,9 @@ FROM (SELECT 1 AS row_num
      (SELECT 1 AS seat_num UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 UNION ALL SELECT 5) s;
 
 
-INSERT INTO seat (seat_number, row, is_booked, vehicle_id)
+INSERT INTO seat (seat_number, row, vehicle_id)
 SELECT s.seat_num,
        r.row_num,
-       false,
        4
 FROM (SELECT 1 AS row_num
       UNION ALL
@@ -139,10 +135,9 @@ FROM (SELECT 1 AS row_num
      (SELECT 1 AS seat_num UNION ALL SELECT 2 UNION ALL SELECT 3 UNION ALL SELECT 4 UNION ALL SELECT 5) s;
 
 
-INSERT INTO seat (seat_number, row, is_booked, vehicle_id)
+INSERT INTO seat (seat_number, row, vehicle_id)
 SELECT s.seat_num,
        r.row_num,
-       false,
        5
 FROM (SELECT 1 AS row_num
       UNION ALL
@@ -157,18 +152,18 @@ FROM (SELECT 1 AS row_num
          (SELECT 1 AS seat_num UNION ALL SELECT 2) s;
 
 
-INSERT INTO trip (departure_time, arrival_time, price, available_place_count, is_cancelled, vehicle_id,
+INSERT INTO trip (departure_time, arrival_time, price, is_cancelled, vehicle_id,
                   city_id, destination_id)
-VALUES ('2026-06-01 08:00:00', '2026-06-01 12:00:00', 45.00, 20, false, 1, 1, 1),
-       ('2026-06-01 14:00:00', '2026-06-01 18:00:00', 45.00, 10, false, 1, 2, 2),
-       ('2026-06-02 09:00:00', '2026-06-02 15:00:00', 60.00, 2, false, 2, 3, 3),
-       ('2026-06-03 10:00:00', '2026-06-03 22:00:00', 120.00, 60, false, 4, 4, 4),
-       ('2026-06-04 07:30:00', '2026-06-04 11:30:00', 40.00, 40, true, 3, 5, 5),
-       ('2025-06-04 07:30:00', '2025-06-04 11:30:00', 40.00, 0, false, 3, 1, 1),
-       ('2026-06-04 07:30:00', '2026-06-04 11:30:00', 40.00, 40, true, 4, 5, 5),
-       ('2026-06-04 07:30:00', '2026-06-04 11:30:00', 40.00, 40, false, 4, 2, 1),
-       ('2025-06-04 07:30:00', '2025-06-04 11:30:00', 40.00, 0, false, 2, 2, 2),
-       ('2025-06-04 07:30:00', '2025-06-04 11:30:00', 40.00, 0, false, 1, 2, 3);
+VALUES ('2026-06-01 08:00:00', '2026-06-01 12:00:00', 45.00, false, 1, 1, 1),
+       ('2026-06-01 14:00:00', '2026-06-01 18:00:00', 45.00, false, 1, 2, 2),
+       ('2026-06-02 09:00:00', '2026-06-02 15:00:00', 60.00, false, 2, 3, 3),
+       ('2026-06-03 10:00:00', '2026-06-03 22:00:00', 120.00, false, 4, 4, 4),
+       ('2026-06-04 07:30:00', '2026-06-04 11:30:00', 40.00, false, 3, 5, 5),
+       ('2025-06-04 07:30:00', '2025-06-04 11:30:00', 40.00, false, 3, 1, 1),
+       ('2026-06-04 07:30:00', '2026-06-04 11:30:00', 40.00, true, 4, 5, 5),
+       ('2026-06-04 07:30:00', '2026-06-04 11:30:00', 40.00, false, 5, 2, 1),
+       ('2025-06-04 07:30:00', '2025-06-04 11:30:00', 40.00, false, 2, 2, 2),
+       ('2025-06-04 07:30:00', '2025-06-04 11:30:00', 40.00, false, 1, 2, 3);
 
 INSERT INTO shift (start_time, end_time, staff_id, vehicle_id)
 VALUES ('2026-06-01 07:00:00', '2026-06-01 13:00:00', 4, 1),
@@ -202,18 +197,31 @@ VALUES (1, '2026-05-01 00:00:00', '2026-06-01 00:00:00'),
 INSERT INTO reservation (reservation_number, time, status, expires_at, total_price, discount_id, customer_id, trip_id)
 VALUES (gen_random_uuid(), '2026-05-20 10:00:00', 'COMPLETED', '2026-05-20 10:10:00', 40.50, 1, 1, 1),
        (gen_random_uuid(), '2026-05-21 11:00:00', 'PENDING', '2026-05-21 11:10:00', 35.00, 2, 2, 2),
-       (gen_random_uuid(), '2026-05-22 12:00:00', 'COMPLETED', '2026-05-22 12:10:00', 55.00, 3, 3, 3),
+       (gen_random_uuid(), '2026-05-22 12:00:00', 'COMPLETED', '2026-05-22 12:10:00', 580.00, 3, 3, 3),
        (gen_random_uuid(), '2026-05-23 09:00:00', 'CANCELLED', '2026-05-23 09:10:00', 120.00, 1, 1, 4),
        (gen_random_uuid(), '2026-05-24 15:30:00', 'COMPLETED', '2026-05-24 15:40:00', 45.00, 1, 2, 1);
 
 INSERT INTO seat_reservation (reservation_id, seat_id)
 VALUES (1, 1),
-       (1, 2),
-       (2, 4),
-       (3, 5),
-       (5, 3);
+       (2, 2),
+       (2, 3),
+       (3, 41),
+       (3, 42),
+       (3, 43),
+       (3, 44),
+       (3, 45),
+       (3, 46),
+       (3, 47),
+       (3, 48),
+       (3, 49),
+       (3, 50),
+       (3, 51),
+       (3, 52),
+       (3, 53),
+       (5, 10);
 
-INSERT INTO payment (method, status, transaction_id, reservation_id)
+INSERT
+INTO payment (method, status, transaction_id, reservation_id)
 VALUES ('CARD', 'COMPLETED', gen_random_uuid(), 1),
        ('CARD', 'PENDING', gen_random_uuid(), 2),
        ('ONLINE', 'COMPLETED', gen_random_uuid(), 3),

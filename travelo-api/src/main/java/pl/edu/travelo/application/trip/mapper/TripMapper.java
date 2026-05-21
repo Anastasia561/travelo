@@ -42,7 +42,7 @@ public class TripMapper {
         if (trip == null) return null;
 
         DestinationResponseDto destination = destinationMapper.toDto(trip.getDestination());
-        VehicleBookingInfoResponseDto vehicleInfo = vehicleMapper.toBookingInfoDto(trip.getVehicle());
+        VehicleBookingInfoResponseDto vehicleInfo = vehicleMapper.toBookingInfoDto(trip.getVehicle(), trip.getId());
 
         return new TripInfoDto(
                 trip.getId(),

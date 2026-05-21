@@ -9,6 +9,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import pl.edu.travelo.domain.enums.ReservationStatus;
 import pl.edu.travelo.domain.validation.FieldValidator;
 
 import java.util.HashSet;
@@ -27,9 +28,6 @@ public class Seat {
     @Column(nullable = false)
     private int row;
 
-    @Column(nullable = false)
-    private boolean isBooked;
-
     @ManyToOne
     @JoinColumn(name = "vehicle_id", nullable = false)
     private Vehicle vehicle;
@@ -42,7 +40,6 @@ public class Seat {
         setSeatNumber(seatNumber);
         setRow(row);
         this.vehicle = vehicle;
-        this.isBooked = false;
     }
 
     protected Seat() {
@@ -62,12 +59,14 @@ public class Seat {
         return id;
     }
 
-    public boolean isBooked() {
-        return isBooked;
-    }
-
-    public void setBooked(boolean booked) {
-        isBooked = booked;
+    public boolean isBooked(long tripId) {
+        return this.reservations.stream()
+                .anyMatch(reservation ->
+                        reservation.getTrip() != null
+                                && reservation.getTrip().getId() == tripId
+                                && (reservation.getStatus() == ReservationStatus.COMPLETED
+                                || reservation.getStatus() == ReservationStatus.PENDING)
+                );
     }
 
     public int getRow() {

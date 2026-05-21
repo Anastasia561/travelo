@@ -52,7 +52,7 @@ class ReservationServiceImpl implements ReservationService {
         Set<Seat> seats = seatService.findAllByIds(createDto.seatIds());
 
         boolean hasBookedSeat = seats.stream()
-                .anyMatch(Seat::isBooked);
+                .anyMatch(seat -> seat.isBooked(createDto.tripId()));
 
         if (hasBookedSeat) {
             throw new IllegalStateException("One or more selected seats are already booked.");
@@ -60,8 +60,6 @@ class ReservationServiceImpl implements ReservationService {
 
         Customer customer = customerService.findById(customerId);
         customer.setLoyaltyPoints(customer.getLoyaltyPoints() - createDto.loyaltyPoints());
-
-        trip.setAvailablePlaceCount(trip.getAvailablePlaceCount() - 1);
 
         Reservation reservation;
 

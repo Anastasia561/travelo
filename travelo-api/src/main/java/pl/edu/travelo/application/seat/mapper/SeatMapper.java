@@ -7,12 +7,13 @@ import pl.edu.travelo.domain.model.Seat;
 
 @Component
 public class SeatMapper {
-    public SeatDto toDto(Seat seat) {
+    public SeatDto toDto(Seat seat, long tripId) {
         return new SeatDto(
                 seat.getId(),
                 seat.getSeatNumber(),
+                seat.getPrice(),
                 seat.getRow(),
-                seat.isBooked());
+                seat.isBooked(tripId));
     }
 
     public SeatReservationDto toReservationDto(Seat seat) {

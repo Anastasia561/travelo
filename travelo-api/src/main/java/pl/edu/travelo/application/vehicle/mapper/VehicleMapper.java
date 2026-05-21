@@ -57,12 +57,12 @@ public class VehicleMapper {
                 destinations);
     }
 
-    public VehicleBookingInfoResponseDto toBookingInfoDto(Vehicle vehicle) {
+    public VehicleBookingInfoResponseDto toBookingInfoDto(Vehicle vehicle, long tripId) {
         if (vehicle == null) return null;
         Set<SeatDto> seats = new HashSet<>();
 
         for (Seat seat : vehicle.getSeats()) {
-            SeatDto dto = seatMapper.toDto(seat);
+            SeatDto dto = seatMapper.toDto(seat, tripId);
             seats.add(dto);
         }
 

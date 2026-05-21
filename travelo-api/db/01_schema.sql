@@ -106,7 +106,6 @@ CREATE TABLE seat
     id          bigserial NOT NULL,
     seat_number int       NOT NULL,
     row         int       NOT NULL,
-    is_booked   boolean   NOT NULL,
     vehicle_id  bigint    NOT NULL,
     CONSTRAINT seat_pk PRIMARY KEY (id)
 );
@@ -116,7 +115,7 @@ CREATE TABLE seat_reservation
 (
     reservation_id bigint NOT NULL,
     seat_id        bigint NOT NULL,
-    CONSTRAINT seat_reservation_pk PRIMARY KEY (Reservation_id, seat_id)
+    CONSTRAINT seat_reservation_pk PRIMARY KEY (reservation_id, seat_id)
 );
 
 -- Table: shift
@@ -147,7 +146,6 @@ CREATE TABLE trip
     departure_time        timestamp      NOT NULL,
     arrival_time          timestamp      NOT NULL,
     price                 decimal(10, 2) NOT NULL,
-    available_place_count int            NOT NULL,
     is_cancelled          boolean        NOT NULL,
     vehicle_id            bigint         NOT NULL,
     city_id               bigint         NOT NULL,

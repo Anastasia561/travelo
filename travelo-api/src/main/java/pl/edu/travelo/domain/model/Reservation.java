@@ -33,7 +33,7 @@ public class Reservation {
     @Column(nullable = false)
     private UUID reservationNumber;
 
-    @Column(nullable = false)
+    @Column(name = "time", nullable = false)
     private LocalDateTime reservationTime;
 
     @Column(length = 20, nullable = false)
@@ -55,8 +55,8 @@ public class Reservation {
     @ManyToMany
     @JoinTable(
             name = "seat_reservation",
-            joinColumns = @JoinColumn(name = "seat_id"),
-            inverseJoinColumns = @JoinColumn(name = "reservation_id")
+            joinColumns = @JoinColumn(name = "reservation_id"),
+            inverseJoinColumns = @JoinColumn(name = "seat_id")
     )
     private final Set<Seat> seats = new HashSet<>();
 

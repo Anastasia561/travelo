@@ -9,6 +9,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import pl.edu.travelo.domain.enums.ReservationStatus;
 import pl.edu.travelo.domain.validation.FieldValidator;
 
 import java.time.LocalDateTime;
@@ -34,9 +35,6 @@ public class Trip {
     private double price;
 
     @Column(nullable = false)
-    private int availablePlaceCount;
-
-    @Column(nullable = false)
     private boolean isCancelled;
 
 
@@ -55,7 +53,7 @@ public class Trip {
     @OneToMany(mappedBy = "trip")
     private final Set<Reservation> reservations = new HashSet<>();
 
-    public Trip(LocalDateTime departureTime, LocalDateTime arrivalTime, double price, int availablePlaceCount,
+    public Trip(LocalDateTime departureTime, LocalDateTime arrivalTime, double price,
                 City startCity, Destination destination, Vehicle vehicle) {
         FieldValidator.validateDateTimeNotInThePast(departureTime, "Departure Time");
         FieldValidator.validateDateTimeNotInThePast(arrivalTime, "Arrival");
@@ -63,7 +61,6 @@ public class Trip {
         this.departureTime = departureTime;
         this.arrivalTime = arrivalTime;
         setPrice(price);
-        setAvailablePlaceCount(availablePlaceCount);
         this.isCancelled = false;
 
         assignCity(startCity);
@@ -71,9 +68,9 @@ public class Trip {
         assignVehicle(vehicle);
     }
 
-    public Trip(LocalDateTime departureTime, LocalDateTime arrivalTime, double price, int availablePlaceCount,
+    public Trip(LocalDateTime departureTime, LocalDateTime arrivalTime, double price,
                 City startCity, Destination destination, Vehicle vehicle, Set<Reservation> reservations) {
-        this(departureTime, arrivalTime, price, availablePlaceCount, startCity, destination, vehicle);
+        this(departureTime, arrivalTime, price, startCity, destination, vehicle);
 
         FieldValidator.validateObjectNotNull(reservations, "Reservations list");
         for (Reservation reservation : reservations) {
@@ -117,15 +114,24 @@ public class Trip {
     }
 
     public int getAvailablePlaceCount() {
-        return availablePlaceCount;
-    }
+        if (this.vehicle == null) return 0;
 
-    public void setAvailablePlaceCount(int availablePlaceCount) {
-        this.availablePlaceCount = FieldValidator.validatePositiveNumber(availablePlaceCount, "Available Places");
+        int totalSeats = this.vehicle.getSeats().size();
+
+        long bookedSeatsCount = this.reservations.stream()
+                .filter(reservation -> reservation.getStatus() == ReservationStatus.PENDING
+                        || reservation.getStatus() == ReservationStatus.COMPLETED)
+                .flatMap(reservation -> reservation.getSeats().stream())
+                .distinct()
+                .count();
+
+        int available = totalSeats - (int) bookedSeatsCount;
+
+        return Math.max(0, available);
     }
 
     public boolean isFull() {
-        return availablePlaceCount == 0;
+        return getAvailablePlaceCount() == 0;
     }
 
     public boolean isCancelled() {
