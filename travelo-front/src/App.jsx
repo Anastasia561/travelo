@@ -8,6 +8,9 @@ import PersistLogin from "./components/auth/PersistLogin.jsx";
 import ProtectedLayout from "./components/layout/ProtectedLayout.jsx";
 import Providers from "./context/Providers.jsx";
 import TripList from "./components/listing/TripList.jsx";
+import Home from "./pages/Home.jsx";
+import DestinationList from "./components/listing/DestinationList.jsx";
+import VehicleList from "./components/listing/VehicleList.jsx";
 
 function App() {
 
@@ -24,6 +27,12 @@ function App() {
 
                         <Route element={<RequireAuth allowedRoles={["ROLE_USER"]}/>}>
                             <Route path="trips" element={<TripList/>}/>
+                            <Route path="home" element={<Home/>}/>
+                            <Route path="destinations" element={<DestinationList/>}/>
+                            <Route path="vehicles" element={<VehicleList/>}/>
+
+                            <Route path="/destinations/:destinationId/vehicles" element={<VehicleList/>}/>
+                            <Route path="/vehicles/:vehicleId/destinations" element={<DestinationList/>}/>
 
                         </Route>
 

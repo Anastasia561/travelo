@@ -11,8 +11,8 @@ const NavBar = () => {
 
     const navLinks = [
         {to: "/trips", label: "Trips", roles: ["ROLE_USER"]},
-        {to: "/hh", label: "Vehicles", roles: ["ROLE_USER"]},
-        {to: "/hh", label: "Destinations", roles: ["ROLE_USER"]}
+        {to: "/vehicles", label: "Vehicles", roles: ["ROLE_USER"]},
+        {to: "/destinations", label: "Destinations", roles: ["ROLE_USER"]}
     ];
 
     const handleLogout = async () => {
@@ -23,10 +23,10 @@ const NavBar = () => {
     return (
         <div className="header">
 
-            <div className="header-left">
+            <NavLink className="header-left" to={"/home"}>
                 <img src={logo} alt="Logo" className="logo"/>
                 <h1 className="title">Travelo</h1>
-            </div>
+            </NavLink>
 
             <nav className="header-nav">
 

@@ -43,7 +43,7 @@ const Login = () => {
             <div className="mb-4">
                 <img
                     src={logo}
-                    alt="MediCore Logo"
+                    alt="Travelo Logo"
                     width="100"
                     height="100"
                     className="mb-2"
