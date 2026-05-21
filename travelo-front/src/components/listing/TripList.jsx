@@ -3,10 +3,12 @@ import dayjs from 'dayjs';
 import ListContainer from "./common/ListContainer.jsx";
 import {useTrips} from "./hooks/useTrips.jsx";
 import Pagination from "../common/Pagination.jsx";
+import {useNavigate} from "react-router-dom";
 
 const TripList = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const pageSize = 3;
+    const navigate = useNavigate();
 
     const {data, isLoading, isError} = useTrips(currentPage - 1, pageSize);
 
@@ -74,7 +76,7 @@ const TripList = () => {
 
                                     <div className="d-flex justify-content-between align-items-center pt-3 border-top">
                                         <div>
-                                            <span className="text-muted small d-block">Price per seat</span>
+                                            <span className="text-muted small d-block">Price per trip</span>
                                             <span className="fs-4 fw-extrabold text-success">
                                                 {t.price} <span
                                                 className="small fs-6 fw-normal text-muted">{t.currency}</span>
@@ -83,7 +85,8 @@ const TripList = () => {
 
                                         <div>
                                             <span className="text-muted small d-block">Available seats</span>
-                                            <span className={`fs-5 text-muted ${t.availablePlaceCount === 0 ? 'text-danger' : 'text-dark'}`}>
+                                            <span
+                                                className={`fs-5 text-muted ${t.availablePlaceCount === 0 ? 'text-danger' : 'text-dark'}`}>
                                                     {t.availablePlaceCount}
                                                 </span>
                                         </div>
@@ -91,6 +94,9 @@ const TripList = () => {
                                         <button
                                             className={`btn btn-lg px-4 ${isBookable ? 'btn-primary' : 'btn-secondary disabled'}`}
                                             disabled={!isBookable}
+                                            onClick={() => {
+                                                return navigate(`/book/${t.id}`);
+                                            }}
                                         >
                                             {t.isCancelled ? 'Unavailable' : t.isFull ? 'Sold Out' : 'Book Ticket'}
                                         </button>

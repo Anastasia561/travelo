@@ -11,6 +11,7 @@ import TripList from "./components/listing/TripList.jsx";
 import Home from "./pages/Home.jsx";
 import DestinationList from "./components/listing/DestinationList.jsx";
 import VehicleList from "./components/listing/VehicleList.jsx";
+import ReservationForm from "./components/reservation/ResrvationForm.jsx";
 
 function App() {
 
@@ -33,6 +34,7 @@ function App() {
 
                             <Route path="/destinations/:destinationId/vehicles" element={<VehicleList/>}/>
                             <Route path="/vehicles/:vehicleId/destinations" element={<DestinationList/>}/>
+                            <Route path="/book/:tripId" element={<ReservationForm />} />
 
                         </Route>
 
