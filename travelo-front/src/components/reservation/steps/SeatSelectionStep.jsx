@@ -1,12 +1,13 @@
 import {useState, useEffect} from 'react';
 import {useTripInfo} from "../hooks/useTripInfo.jsx";
 
-export default function SeatSelection({tripId, formData, updateFormData, onNext}) {
+export default function SeatSelection({formData, updateFormData, onNext}) {
+    const tripId = formData.tripId;
     const {data, isLoading, isError} = useTripInfo(tripId);
-    const [selectedLocalSeats, setSelectedLocalSeats] = useState(formData.selectedSeats || []);
+    const [selectedLocalSeats, setSelectedLocalSeats] = useState(formData.seatIds || []);
 
     useEffect(() => {
-        updateFormData({selectedSeats: selectedLocalSeats});
+        updateFormData({seatIds: selectedLocalSeats});
     }, [selectedLocalSeats]);
 
     if (isLoading) {
@@ -47,12 +48,22 @@ export default function SeatSelection({tripId, formData, updateFormData, onNext}
         return sum + (foundSeat ? foundSeat.price : 0);
     }, data.price);
 
+    const handleProceed = () => {
+        updateFormData({
+            seatIds: selectedLocalSeats,
+            total: currentTotal
+        });
+        onNext();
+    };
+
     return (
         <div className="seat-selection-wrapper">
-            <h3 className="mb-2">Select Your Seats</h3>
-            <p className="text-muted mb-4">
-                Vehicle Type: <strong>{vehicleInfo.type.replace('_', ' ')} (#{vehicleInfo.number})</strong>
-            </p>
+            <div className="text-center mb-4">
+                <h3 className="fw-bold text-dark">Select Your Seats</h3>
+                <p className="text-muted mb-4">
+                    Vehicle Type: <strong>{vehicleInfo.type.replace('_', ' ')} (#{vehicleInfo.number})</strong>
+                </p>
+            </div>
 
             <div className="d-flex flex-wrap gap-3 mb-4 p-3 bg-light rounded small border">
                 <div className="d-flex align-items-center gap-2">
@@ -83,7 +94,7 @@ export default function SeatSelection({tripId, formData, updateFormData, onNext}
                             whiteSpace: 'nowrap'
                         }}
                     >
-                        🚌 FRONT OF BUS / DRIVER ▲
+                        FRONT OF BUS / DRIVER ▲
                     </div>
 
                     <div
@@ -154,7 +165,7 @@ export default function SeatSelection({tripId, formData, updateFormData, onNext}
                 <button
                     type="button"
                     className="btn btn-primary btn-lg px-5 shadow"
-                    onClick={onNext}
+                    onClick={handleProceed}
                     disabled={selectedLocalSeats.length === 0}
                 >
                     Proceed to Customer Info →
