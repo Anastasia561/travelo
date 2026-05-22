@@ -3,12 +3,8 @@ package pl.edu.travelo.application.discount.service;
 import pl.edu.travelo.application.discount.dto.DiscountResponseDto;
 import pl.edu.travelo.domain.model.Discount;
 
-import java.util.Set;
-
 public interface DiscountService {
-    boolean validateByPromeCode(String promeCode);
-
-    Set<DiscountResponseDto> getRelevantDiscounts(long customerId);
+    DiscountResponseDto getByPromeCodeRelevant(String promeCode, long customerId);
 
     Discount findByPromeCode(String promeCode);
 }

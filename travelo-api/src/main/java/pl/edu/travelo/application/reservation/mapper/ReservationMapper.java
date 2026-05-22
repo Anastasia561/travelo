@@ -22,7 +22,7 @@ public class ReservationMapper {
         this.seatMapper = seatMapper;
     }
 
-    public ReservationResponseDto toResponseDto(Reservation reservation, double totalPrice) {
+    public ReservationResponseDto toResponseDto(Reservation reservation) {
         TripReservationInfoDto tripDto = tripMapper.toReservationInfoDto(reservation.getTrip());
         Set<SeatReservationDto> seats = new HashSet<>();
 
@@ -30,6 +30,7 @@ public class ReservationMapper {
             seats.add(seatMapper.toReservationDto(seat));
         }
 
-        return new ReservationResponseDto(reservation.getReservationNumber(), tripDto, seats, totalPrice);
+        return new ReservationResponseDto(reservation.getReservationNumber(), tripDto, seats,
+                reservation.getTotalPrice());
     }
 }

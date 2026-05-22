@@ -2,58 +2,12 @@ package pl.edu.travelo.application.discount.mapper;
 
 import org.springframework.stereotype.Component;
 import pl.edu.travelo.application.discount.dto.DiscountResponseDto;
-import pl.edu.travelo.domain.enums.DiscountType;
-import pl.edu.travelo.domain.model.LimitedDiscount;
-import pl.edu.travelo.domain.model.RegularDiscount;
+import pl.edu.travelo.domain.model.Discount;
 
 @Component
 public class DiscountMapper {
 
-    public DiscountResponseDto toDtoFromLimited(LimitedDiscount discount) {
-        if (discount.getDiscountType() == DiscountType.AGE_GROUP_DISCOUNT) {
-            return new DiscountResponseDto(
-                    discount.getPromoCode(),
-                    discount.getDiscountAmount(),
-                    discount.getAgeGroup(),
-                    null,
-                    discount.getStartTime(),
-                    discount.getEndTime(),
-                    null
-            );
-        } else {
-            return new DiscountResponseDto(
-                    discount.getPromoCode(),
-                    discount.getDiscountAmount(),
-                    null,
-                    discount.getConditionDescription(),
-                    discount.getStartTime(),
-                    discount.getEndTime(),
-                    null
-            );
-        }
-    }
-
-    public DiscountResponseDto toDtoFromRegular(RegularDiscount discount) {
-        if (discount.getDiscountType() == DiscountType.AGE_GROUP_DISCOUNT) {
-            return new DiscountResponseDto(
-                    discount.getPromoCode(),
-                    discount.getDiscountAmount(),
-                    discount.getAgeGroup(),
-                    null,
-                    null,
-                    null,
-                    discount.getDayOfWeek()
-            );
-        } else {
-            return new DiscountResponseDto(
-                    discount.getPromoCode(),
-                    discount.getDiscountAmount(),
-                    null,
-                    discount.getConditionDescription(),
-                    null,
-                    null,
-                    discount.getDayOfWeek()
-            );
-        }
+    public DiscountResponseDto toDto(Discount discount) {
+        return new DiscountResponseDto(discount.getPromoCode(), discount.getDiscountAmount());
     }
 }

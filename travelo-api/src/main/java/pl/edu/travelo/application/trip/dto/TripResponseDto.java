@@ -6,7 +6,6 @@ import java.time.LocalDateTime;
 
 public record TripResponseDto(
         long id,
-        String currency,
         LocalDateTime departureTime,
         LocalDateTime arrivalTime,
         double price,

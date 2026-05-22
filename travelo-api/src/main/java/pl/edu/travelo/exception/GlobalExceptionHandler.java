@@ -34,7 +34,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ResponseWrapper<Object>> handleGenericException(Exception ex) {
-        return buildError(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage());
+        return buildError(HttpStatus.INTERNAL_SERVER_ERROR, "Internal server error");
     }
 
     @ExceptionHandler({InvalidRefreshTokenException.class, UsernameNotFoundException.class,

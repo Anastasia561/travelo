@@ -9,14 +9,14 @@ import java.util.Set;
 
 public record ReservationCreateDto(
         @NotNull(message = "Trip ID is required")
-        long tripId,
+        Long tripId,
 
         @Size(max = 10, message = "Promo code cannot exceed 10 characters")
         String promeCode,
 
         @NotNull(message = "Loyalty points are required")
         @Min(value = 0, message = "Loyalty points cannot be negative")
-        int loyaltyPoints,
+        Integer loyaltyPoints,
 
         @NotEmpty(message = "At least one seat must be selected")
         Set<@NotNull(message = "Seat ID cannot be null") Long> seatIds

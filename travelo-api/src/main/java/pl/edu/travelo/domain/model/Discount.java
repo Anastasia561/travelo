@@ -129,4 +129,8 @@ public abstract class Discount {
     public DiscountType getDiscountType() {
         return discountType;
     }
+
+    public long getId() {
+        return id;
+    }
 }

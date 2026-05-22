@@ -25,7 +25,6 @@ public class TripMapper {
 
         return new TripResponseDto(
                 trip.getId(),
-                trip.getCurrency(),
                 trip.getDepartureTime(),
                 trip.getArrivalTime(),
                 trip.getPrice(),
@@ -46,7 +45,6 @@ public class TripMapper {
 
         return new TripInfoDto(
                 trip.getId(),
-                trip.getCurrency(),
                 trip.getDepartureTime(),
                 trip.getArrivalTime(),
                 trip.getPrice(),

@@ -39,33 +39,21 @@ class DiscountServiceImpl implements DiscountService {
     }
 
     @Override
-    public boolean validateByPromeCode(String promeCode) {
-        if (discountRepository.findDiscountByPromeCode(promeCode).isEmpty()) {
-            throw new EntityNotFoundException("Discount not found");
-        }
-        return true;
+    public DiscountResponseDto getByPromeCodeRelevant(String promeCode, long customerId) {
+        findByPromeCode(promeCode);
+
+        return getRelevantDiscount(customerId).stream()
+                .filter(d -> d.getPromoCode().equals(promeCode))
+                .findFirst()
+                .map(discountMapper::toDto)
+                .orElseThrow(() -> new EntityNotFoundException(
+                        "This discount code is not available for your account tier"));
     }
 
     @Override
     public Discount findByPromeCode(String promeCode) {
         return discountRepository.findDiscountByPromeCode(promeCode)
                 .orElseThrow(() -> new EntityNotFoundException("Discount not found"));
-    }
-
-    @Override
-    public Set<DiscountResponseDto> getRelevantDiscounts(long customerId) {
-        LocalDate birthDate = customerService.findById(customerId).getBirthDate();
-
-        LocalDateTime now = LocalDateTime.now();
-        int age = Period.between(birthDate, now.toLocalDate()).getYears();
-        AgeGroup ageGroup = determineAgeGroup(age);
-
-        return Stream.concat(
-                limitedDiscountRepository.findAllByDateOrAge(now, ageGroup)
-                        .stream().map(discountMapper::toDtoFromLimited),
-                regularDiscountRepository.findAllByDayOrAge(now.toLocalDate().getDayOfWeek(), ageGroup)
-                        .stream().map(discountMapper::toDtoFromRegular)
-        ).collect(Collectors.toSet());
     }
 
     private AgeGroup determineAgeGroup(int age) {
@@ -76,5 +64,18 @@ class DiscountServiceImpl implements DiscountService {
         } else {
             return AgeGroup.SENIOR;
         }
+    }
+
+    private Set<Discount> getRelevantDiscount(long customerId) {
+        LocalDate birthDate = customerService.findById(customerId).getBirthDate();
+
+        LocalDateTime now = LocalDateTime.now();
+        int age = Period.between(birthDate, now.toLocalDate()).getYears();
+        AgeGroup ageGroup = determineAgeGroup(age);
+
+        return Stream.concat(
+                limitedDiscountRepository.findAllByDateOrAge(now, ageGroup).stream(),
+                regularDiscountRepository.findAllByDayOrAge(now.toLocalDate().getDayOfWeek(), ageGroup).stream()
+        ).collect(Collectors.toSet());
     }
 }

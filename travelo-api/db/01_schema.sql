@@ -88,15 +88,15 @@ CREATE TABLE regular_discount
 -- Table: reservation
 CREATE TABLE reservation
 (
-    id                 bigserial      NOT NULL,
-    reservation_number UUID           NOT NULL,
-    time               timestamp      NOT NULL,
-    status             varchar(20)    NOT NULL,
-    expires_at         timestamp      NOT NULL,
-    total_price        decimal(10, 2) NOT NULL,
-    discount_id        bigint         NOT NULL,
-    customer_id        bigint         NOT NULL,
-    trip_id            bigint         NOT NULL,
+    id                  bigserial   NOT NULL,
+    reservation_number  UUID        NOT NULL,
+    time                timestamp   NOT NULL,
+    status              varchar(20) NOT NULL,
+    expires_at          timestamp   NOT NULL,
+    loyalty_points_used int         NOT NULL,
+    discount_id         bigint NULL,
+    customer_id         bigint      NOT NULL,
+    trip_id             bigint      NOT NULL,
     CONSTRAINT reservation_pk PRIMARY KEY (id)
 );
 
@@ -142,14 +142,14 @@ CREATE TABLE staff
 -- Table: trip
 CREATE TABLE trip
 (
-    id                    bigserial      NOT NULL,
-    departure_time        timestamp      NOT NULL,
-    arrival_time          timestamp      NOT NULL,
-    price                 decimal(10, 2) NOT NULL,
-    is_cancelled          boolean        NOT NULL,
-    vehicle_id            bigint         NOT NULL,
-    city_id               bigint         NOT NULL,
-    destination_id        bigint         NOT NULL,
+    id             bigserial      NOT NULL,
+    departure_time timestamp      NOT NULL,
+    arrival_time   timestamp      NOT NULL,
+    price          decimal(10, 2) NOT NULL,
+    is_cancelled   boolean        NOT NULL,
+    vehicle_id     bigint         NOT NULL,
+    city_id        bigint         NOT NULL,
+    destination_id bigint         NOT NULL,
     CONSTRAINT trip_pk PRIMARY KEY (id)
 );
 
@@ -174,9 +174,9 @@ CREATE TABLE discount_days
 -- Table: refresh_token
 CREATE TABLE refresh_token
 (
-    id         bigserial PRIMARY KEY,
-    person_id bigint      NOT NULL,
-    token      VARCHAR(512) NOT NULL,
+    id        bigserial PRIMARY KEY,
+    person_id bigint       NOT NULL,
+    token     VARCHAR(512) NOT NULL,
     CONSTRAINT fk_refresh_token_user
         FOREIGN KEY (person_id) REFERENCES person (id)
 );

@@ -63,17 +63,17 @@ class ReservationServiceImpl implements ReservationService {
 
         Reservation reservation;
 
-        if (createDto.promeCode() == null || createDto.promeCode().isEmpty()) {
+        if (createDto.promeCode() != null && !createDto.promeCode().isEmpty()) {
             Discount discount = discountService.findByPromeCode(createDto.promeCode());
             reservation = new Reservation(LocalDateTime.now(), ReservationStatus.PENDING,
-                    trip, customer, seats, discount);
+                    trip, customer, seats, discount, createDto.loyaltyPoints());
         } else {
             reservation = new Reservation(LocalDateTime.now(), ReservationStatus.PENDING,
-                    trip, customer, seats);
+                    trip, customer, seats, createDto.loyaltyPoints());
         }
 
         reservationRepository.save(reservation);
 
-        return reservationMapper.toResponseDto(reservation, reservation.getTotalPrice(createDto.loyaltyPoints()));
+        return reservationMapper.toResponseDto(reservation);
     }
 }

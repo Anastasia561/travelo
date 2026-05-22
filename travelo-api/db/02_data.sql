@@ -194,12 +194,13 @@ INSERT INTO limited_discount (id, start_time, end_time)
 VALUES (1, '2026-05-01 00:00:00', '2026-06-01 00:00:00'),
        (4, '2026-05-01 00:00:00', '2026-06-01 00:00:00');
 
-INSERT INTO reservation (reservation_number, time, status, expires_at, total_price, discount_id, customer_id, trip_id)
-VALUES (gen_random_uuid(), '2026-05-20 10:00:00', 'COMPLETED', '2026-05-20 10:10:00', 40.50, 1, 1, 1),
-       (gen_random_uuid(), '2026-05-21 11:00:00', 'PENDING', '2026-05-21 11:10:00', 35.00, 2, 2, 2),
-       (gen_random_uuid(), '2026-05-22 12:00:00', 'COMPLETED', '2026-05-22 12:10:00', 580.00, 3, 3, 3),
-       (gen_random_uuid(), '2026-05-23 09:00:00', 'CANCELLED', '2026-05-23 09:10:00', 120.00, 1, 1, 4),
-       (gen_random_uuid(), '2026-05-24 15:30:00', 'COMPLETED', '2026-05-24 15:40:00', 45.00, 1, 2, 1);
+INSERT INTO reservation (reservation_number, time, status, expires_at, loyalty_points_used, discount_id, customer_id,
+                         trip_id)
+VALUES (gen_random_uuid(), '2026-05-20 10:00:00', 'COMPLETED', '2026-05-20 10:10:00', 40, 1, 1, 1),
+       (gen_random_uuid(), '2026-05-21 11:00:00', 'PENDING', '2026-05-21 11:10:00', 35, 2, 2, 2),
+       (gen_random_uuid(), '2026-05-22 12:00:00', 'COMPLETED', '2026-05-22 12:10:00', 580, 3, 3, 3),
+       (gen_random_uuid(), '2026-05-23 09:00:00', 'CANCELLED', '2026-05-23 09:10:00', 120, 1, 1, 4),
+       (gen_random_uuid(), '2026-05-24 15:30:00', 'COMPLETED', '2026-05-24 15:40:00', 0, 1, 2, 1);
 
 INSERT INTO seat_reservation (reservation_id, seat_id)
 VALUES (1, 1),

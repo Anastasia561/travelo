@@ -23,8 +23,6 @@ public class Trip {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    private static final String CURRENCY = "PLN";
-
     @Column(nullable = false)
     private LocalDateTime departureTime;
 
@@ -140,10 +138,6 @@ public class Trip {
 
     public void setCancelled(boolean cancelled) {
         isCancelled = cancelled;
-    }
-
-    public String getCurrency() {
-        return CURRENCY;
     }
 
     public void assignCity(City newCity) {
