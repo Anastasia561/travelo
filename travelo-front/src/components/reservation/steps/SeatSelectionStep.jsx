@@ -24,7 +24,6 @@ export default function SeatSelection({formData, updateFormData, onNext}) {
     }
 
     const vehicleInfo = data.vehicleInfo;
-    const currency = data.currency || "PLN";
 
     const sortedSeats = [...vehicleInfo.seats].sort((a, b) => {
         if (a.row !== b.row) return a.row - b.row;
@@ -157,7 +156,7 @@ export default function SeatSelection({formData, updateFormData, onNext}) {
                 )}
                 </div>
                 <div className="fw-bold fs-5">
-                    Total: {currentTotal.toFixed(2)} {currency}
+                    Total: {currentTotal.toFixed(2)} PLN
                 </div>
             </div>
 
@@ -168,7 +167,7 @@ export default function SeatSelection({formData, updateFormData, onNext}) {
                     onClick={handleProceed}
                     disabled={selectedLocalSeats.length === 0}
                 >
-                    Proceed to Customer Info →
+                    Proceed to Savings →
                 </button>
             </div>
         </div>

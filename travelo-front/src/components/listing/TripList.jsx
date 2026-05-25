@@ -79,7 +79,7 @@ const TripList = () => {
                                             <span className="text-muted small d-block">Price per trip</span>
                                             <span className="fs-4 fw-extrabold text-success">
                                                 {t.price} <span
-                                                className="small fs-6 fw-normal text-muted">{t.currency}</span>
+                                                className="small fs-6 fw-normal text-muted">PLN</span>
                                             </span>
                                         </div>
 
