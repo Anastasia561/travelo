@@ -80,7 +80,7 @@ public final class FieldValidator {
         return value;
     }
 
-    public static LocalDateTime validateDateTimeNotInThePast(LocalDateTime value, String fieldName) {
+    public static void validateDateTimeNotInThePast(LocalDateTime value, String fieldName) {
         if (value == null) {
             throw new IllegalArgumentException(fieldName + " can not be null");
         }
@@ -88,7 +88,6 @@ public final class FieldValidator {
         if (value.isBefore(LocalDateTime.now())) {
             throw new IllegalArgumentException(fieldName + " can not be in the past");
         }
-        return value;
     }
 
     public static void validateDateTimeRange(LocalDateTime startTime, LocalDateTime endTime) {

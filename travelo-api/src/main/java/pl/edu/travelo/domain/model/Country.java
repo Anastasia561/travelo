@@ -44,6 +44,10 @@ public class Country {
     protected Country() {
     }
 
+    public long getId() {
+        return id;
+    }
+
     public String getName() {
         return name;
     }

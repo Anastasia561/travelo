@@ -88,14 +88,14 @@ public class Reservation {
     public Reservation(LocalDateTime reservationTime, ReservationStatus status, Trip trip, Customer customer,
                        Seat seat, Discount discount, int loyaltyPointsUsed) {
         this(reservationTime, status, trip, customer, seat, loyaltyPointsUsed);
-        this.discount = FieldValidator.validateObjectNotNull(discount, "Discount");
+        assignDiscount(discount);
     }
 
     public Reservation(LocalDateTime reservationTime, ReservationStatus status, Trip trip, Customer customer,
                        Set<Seat> seats, Discount discount, int loyaltyPointsUsed) {
 
         this(reservationTime, status, trip, customer, seats, loyaltyPointsUsed);
-        this.discount = FieldValidator.validateObjectNotNull(discount, "Discount");
+        assignDiscount(discount);
     }
 
     public Reservation(LocalDateTime reservationTime, ReservationStatus status, Trip trip, Customer customer,
@@ -123,16 +123,16 @@ public class Reservation {
         this.status = FieldValidator.validateObjectNotNull(status, "Status");
     }
 
+    public ReservationStatus getStatus() {
+        return status;
+    }
+
     public UUID getReservationNumber() {
         return reservationNumber;
     }
 
     public LocalDateTime getReservationTime() {
         return reservationTime;
-    }
-
-    public ReservationStatus getStatus() {
-        return status;
     }
 
     void addPayment(Payment payment) {
@@ -221,20 +221,6 @@ public class Reservation {
         return this.customer;
     }
 
-    public double getTotalPrice() {
-        double total = trip.getPrice();
-        for (Seat seat : seats) {
-            total += seat.getPrice();
-        }
-        double discountAmount = discount == null ? 0.0 : total * discount.getDiscountAmount();
-        total -= discountAmount;
-
-        double loyaltyDiscount = loyaltyPointsUsed * currencyPerPoint;
-        total -= loyaltyDiscount;
-
-        return Math.max(0.0, total);
-    }
-
     public LocalDateTime getExpiresAt() {
         return expiresAt;
     }
@@ -253,5 +239,19 @@ public class Reservation {
 
     public void setLoyaltyPointsUsed(int loyaltyPointsUsed) {
         this.loyaltyPointsUsed = FieldValidator.validateNonNegativeNumber(loyaltyPointsUsed, "loyal points used");
+    }
+
+    public double getTotalPrice() {
+        double total = trip.getPrice();
+        for (Seat seat : seats) {
+            total += seat.getPrice();
+        }
+        double discountAmount = discount == null ? 0.0 : total * discount.getDiscountAmount();
+        total -= discountAmount;
+
+        double loyaltyDiscount = loyaltyPointsUsed * currencyPerPoint;
+        total -= loyaltyDiscount;
+
+        return Math.max(0.0, total);
     }
 }

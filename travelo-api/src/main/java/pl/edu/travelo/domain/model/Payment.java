@@ -55,8 +55,16 @@ public class Payment {
         return method;
     }
 
+    public void setMethod(PaymentMethod paymentMethod) {
+        this.method = FieldValidator.validateObjectNotNull(paymentMethod, "Payment Method");
+    }
+
     public PaymentStatus getPaymentStatus() {
         return status;
+    }
+
+    public void setStatus(PaymentStatus paymentStatus) {
+        this.status = FieldValidator.validateObjectNotNull(paymentStatus, "Payment Status");
     }
 
     public UUID getTransactionId() {
@@ -65,13 +73,5 @@ public class Payment {
 
     public Reservation getReservation() {
         return reservation;
-    }
-
-    public void setMethod(PaymentMethod paymentMethod) {
-        this.method = FieldValidator.validateObjectNotNull(paymentMethod, "Payment Method");
-    }
-
-    public void setStatus(PaymentStatus paymentStatus) {
-        this.status = FieldValidator.validateObjectNotNull(paymentStatus, "Payment Status");
     }
 }

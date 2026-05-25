@@ -59,16 +59,6 @@ public class Seat {
         return id;
     }
 
-    public boolean isBooked(long tripId) {
-        return this.reservations.stream()
-                .anyMatch(reservation ->
-                        reservation.getTrip() != null
-                                && reservation.getTrip().getId() == tripId
-                                && (reservation.getStatus() == ReservationStatus.COMPLETED
-                                || reservation.getStatus() == ReservationStatus.PENDING)
-                );
-    }
-
     public int getRow() {
         return row;
     }
@@ -108,5 +98,15 @@ public class Seat {
             case SHUTTLE_BUS -> 40.0;
             case TRANSIT_BUS -> 100.0;
         };
+    }
+
+    public boolean isBooked(long tripId) {
+        return this.reservations.stream()
+                .anyMatch(reservation ->
+                        reservation.getTrip() != null
+                                && reservation.getTrip().getId() == tripId
+                                && (reservation.getStatus() == ReservationStatus.COMPLETED
+                                || reservation.getStatus() == ReservationStatus.PENDING)
+                );
     }
 }

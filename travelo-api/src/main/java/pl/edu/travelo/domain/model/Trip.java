@@ -111,27 +111,6 @@ public class Trip {
         this.price = FieldValidator.validatePositiveNumber(price, "Price");
     }
 
-    public int getAvailablePlaceCount() {
-        if (this.vehicle == null) return 0;
-
-        int totalSeats = this.vehicle.getSeats().size();
-
-        long bookedSeatsCount = this.reservations.stream()
-                .filter(reservation -> reservation.getStatus() == ReservationStatus.PENDING
-                        || reservation.getStatus() == ReservationStatus.COMPLETED)
-                .flatMap(reservation -> reservation.getSeats().stream())
-                .distinct()
-                .count();
-
-        int available = totalSeats - (int) bookedSeatsCount;
-
-        return Math.max(0, available);
-    }
-
-    public boolean isFull() {
-        return getAvailablePlaceCount() == 0;
-    }
-
     public boolean isCancelled() {
         return isCancelled;
     }
@@ -206,5 +185,26 @@ public class Trip {
 
     public Set<Reservation> getReservations() {
         return new HashSet<>(reservations);
+    }
+
+    public int getAvailablePlaceCount() {
+        if (this.vehicle == null) return 0;
+
+        int totalSeats = this.vehicle.getSeats().size();
+
+        long bookedSeatsCount = this.reservations.stream()
+                .filter(reservation -> reservation.getStatus() == ReservationStatus.PENDING
+                        || reservation.getStatus() == ReservationStatus.COMPLETED)
+                .flatMap(reservation -> reservation.getSeats().stream())
+                .distinct()
+                .count();
+
+        int available = totalSeats - (int) bookedSeatsCount;
+
+        return Math.max(0, available);
+    }
+
+    public boolean isFull() {
+        return getAvailablePlaceCount() == 0;
     }
 }

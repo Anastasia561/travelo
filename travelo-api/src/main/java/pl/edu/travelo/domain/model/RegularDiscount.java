@@ -13,6 +13,7 @@ import pl.edu.travelo.domain.enums.AgeGroup;
 import pl.edu.travelo.domain.validation.FieldValidator;
 
 import java.time.DayOfWeek;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -47,6 +48,6 @@ public class RegularDiscount extends Discount {
     }
 
     public Set<DayOfWeek> getDayOfWeek() {
-        return dayOfWeek;
+        return new HashSet<>(this.dayOfWeek);
     }
 }

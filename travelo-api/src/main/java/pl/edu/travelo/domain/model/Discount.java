@@ -75,16 +75,20 @@ public abstract class Discount {
         }
     }
 
-    public void setPromoCode(String promeCode) {
-        this.promeCode = FieldValidator.validateNullOrEmptyString(promeCode, "Prome Code");
-    }
-
     public double getDiscountAmount() {
         return amount;
     }
 
+    public void setPromoCode(String promeCode) {
+        this.promeCode = FieldValidator.validateNullOrEmptyString(promeCode, "Prome Code");
+    }
+
     public String getPromoCode() {
         return promeCode;
+    }
+
+    public DiscountType getDiscountType() {
+        return discountType;
     }
 
     public AgeGroup getAgeGroup() {
@@ -126,8 +130,8 @@ public abstract class Discount {
         this.reservations.remove(reservation);
     }
 
-    public DiscountType getDiscountType() {
-        return discountType;
+    public Set<Reservation> getReservations() {
+        return new HashSet<>(this.reservations);
     }
 
     public long getId() {
